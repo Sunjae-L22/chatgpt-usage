@@ -4,6 +4,8 @@
 
 [한국어](README.ko.md) · [Download](https://github.com/Sunjae-L22/chatgpt-usage/releases) · [Report a problem](https://github.com/Sunjae-L22/chatgpt-usage/issues)
 
+[Development story (Korean)](https://it-study-2002.tistory.com/entry/chatgpt-usage-codex-macos) · [Verified CI run](https://github.com/Sunjae-L22/chatgpt-usage/actions/runs/34976462549)
+
 ChatGPT Usage is a small, unofficial native macOS app for **Codex subscription limits associated with your ChatGPT account**. It displays the windows your account actually reports, including weekly-only accounts, instead of assuming every plan has a five-hour limit.
 
 It does **not** measure ordinary ChatGPT conversation message caps or OpenAI API spending. An account's reported quota percentage is not a remaining message or token count.

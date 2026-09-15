@@ -4,6 +4,8 @@
 
 [English](README.md) · [다운로드](https://github.com/Sunjae-L22/chatgpt-usage/releases)
 
+[개발기](https://it-study-2002.tistory.com/entry/chatgpt-usage-codex-macos) · [GitHub 자동 검증 결과](https://github.com/Sunjae-L22/chatgpt-usage/actions/runs/34976462549)
+
 ChatGPT 계정에 연결된 **Codex 구독 한도**를 보여주는 비공식 macOS 앱이다. 요금제 이름으로 한도를 추측하지 않고, 서버가 실제로 반환한 기간과 초기화 시각을 표시한다. 주간 한도만 있는 계정에는 주간 카드 하나가 나타난다.
 
 일반 ChatGPT 대화의 모델별 메시지 한도나 OpenAI API 비용을 측정하는 앱은 아니다. 한도 비율을 남은 메시지 수나 토큰 수로 바꾸지 않는다.

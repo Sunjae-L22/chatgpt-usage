@@ -2,6 +2,8 @@
 
 Verified on 2026-09-15. These are development checks, not claims of production adoption.
 
+The repository's [initial GitHub Actions run](https://github.com/Sunjae-L22/chatgpt-usage/actions/runs/34976462549) also passed build, all 20 assertions, bundle creation, and signature verification on the hosted macOS runner.
+
 ## Environment
 
 - macOS 26.6, Apple Silicon (arm64)
