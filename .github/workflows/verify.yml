@@ -1,0 +1,17 @@
+name: Verify
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  macos:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build and verify
+        run: make test
+      - name: Build app bundle
+        run: make bundle
+      - name: Check bundle signature
+        run: codesign --verify --strict --verbose=2 "dist/ChatGPT Usage.app"
