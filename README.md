@@ -32,7 +32,7 @@ It does **not** measure ordinary ChatGPT conversation message caps or OpenAI API
 3. Download and unzip the Apple Silicon app from [Releases](https://github.com/Sunjae-L22/chatgpt-usage/releases), move it to a permanent folder such as Applications, and open it.
 4. Look for `C …%` in the menu bar. Click it to see quota details. If Codex is not detected, use **Settings → Choose Codex…**.
 
-**v0.1.0 is an experimental, ad-hoc-signed build. It is not Apple-notarized.** macOS may block a downloaded binary. Review the source or build locally if you prefer; this project does not ask you to disable Gatekeeper. The downloadable build is Apple Silicon only. The deployment target is macOS 14; see [verification](docs/VERIFICATION.md) for the actually tested environment.
+**v0.1.1 is an experimental, ad-hoc-signed build. It is not Apple-notarized.** macOS may block a downloaded binary. Review the source or build locally if you prefer; this project does not ask you to disable Gatekeeper. The downloadable build is Apple Silicon only. The deployment target is macOS 14; see [verification](docs/VERIFICATION.md) for the actually tested environment.
 
 The app finds Codex in common desktop-app, Homebrew, user-local, and `PATH` locations. `CODEX_BINARY_PATH` is also supported for command-line use. A path selected in Settings takes precedence. This app does not bundle Codex.
 
@@ -86,7 +86,7 @@ The motivation came from using [Claude Usage Tracker](https://github.com/hamed-e
 
 - Plan names are displayed as reported. An internal identifier such as `prolite` is not converted into an assumed retail plan name.
 - The upstream protocol and account limits can change. Missing fields remain unknown.
-- No automatic app updater, threshold notifications, account switching, or persistent history in v0.1.0.
+- No automatic app updater, threshold notifications, account switching, or persistent history in v0.1.1.
 - Launch-at-login requires a permanent app location and may require approval in macOS settings.
 
 Feedback is welcome, especially on different account window shapes, accessibility, and macOS compatibility. See [CONTRIBUTING](CONTRIBUTING.md), [SECURITY](SECURITY.md), and [verification](docs/VERIFICATION.md). Never include tokens or personal account responses in an issue.

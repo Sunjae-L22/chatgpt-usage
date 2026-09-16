@@ -31,7 +31,7 @@ ChatGPT 계정에 연결된 **Codex 구독 한도**를 보여주는 비공식 ma
 3. [Releases](https://github.com/Sunjae-L22/chatgpt-usage/releases)에서 Apple Silicon용 ZIP을 받아 압축을 풀고 고정된 폴더에 앱을 둔다.
 4. 앱 실행 후 메뉴 막대의 `C …%`를 누른다. 자동 검색이 실패하면 설정에서 `codex` 실행 파일을 선택한다.
 
-v0.1.0은 실험용 버전이며 Apple 공증을 받지 않은 임시 서명 앱이다. 다운로드한 바이너리가 macOS에서 차단될 수 있다. 소스를 확인하고 직접 빌드하는 방법도 제공한다. 보안 기능을 끄도록 요구하지 않는다. 배포 파일은 Apple Silicon용이며, macOS 14를 최소 대상으로 빌드한다. 실제 검증 환경은 [검증 기록](docs/VERIFICATION.md)에 구분했다.
+v0.1.1은 실험용 버전이며 Apple 공증을 받지 않은 임시 서명 앱이다. 다운로드한 바이너리가 macOS에서 차단될 수 있다. 소스를 확인하고 직접 빌드하는 방법도 제공한다. 보안 기능을 끄도록 요구하지 않는다. 배포 파일은 Apple Silicon용이며, macOS 14를 최소 대상으로 빌드한다. 실제 검증 환경은 [검증 기록](docs/VERIFICATION.md)에 구분했다.
 
 ```sh
 git clone https://github.com/Sunjae-L22/chatgpt-usage.git
