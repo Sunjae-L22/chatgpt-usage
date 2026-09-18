@@ -30,6 +30,9 @@ public struct LimitWindow: Codable, Equatable, Sendable {
 
 public struct Pace: Equatable, Sendable {
     public let elapsedPercent: Double
+    public var remainingTimePercent: Double { 100 - elapsedPercent }
+    // Positive means quota remaining exceeds time remaining (slower spending).
+    public var quotaAheadPercentagePoints: Double { -usedMinusElapsed }
     public let usedMinusElapsed: Double
     public let percentagePointsPerDay: Double
 }

@@ -21,20 +21,20 @@ import UsageCore
         }
 
         let store = UsageStore(demo: true)
-        let controller = NSHostingController(rootView: UsagePopover(store: store, maximumHeight: 600))
+        let controller = NSHostingController(rootView: UsagePopover(store: store, maximumHeight: 700))
         check(controller.sizeThatFits(in: NSSize(width: 370, height: 0)).height >= 300,
               "A zero-height host proposal cannot collapse the menu content")
-        let host = NSHostingView(rootView: UsagePopover(store: store, maximumHeight: 600))
+        let host = NSHostingView(rootView: UsagePopover(store: store, maximumHeight: 700))
         check(host.fittingSize.width == 370 && host.fittingSize.height >= 300,
               "Menu content has a usable size before its first layout")
         let compact = settle(host)
         let panel = NSHostingView(rootView: UsagePanel(store: store))
-        check(abs(compact.height - min(600, panel.fittingSize.height)) <= 1,
+        check(abs(compact.height - min(700, panel.fittingSize.height)) <= 1,
               "Popover fits the measured weekly content")
 
         store.showSettings = true
         let expanded = settle(host)
-        check(expanded.height > compact.height && expanded.height <= 600,
+        check(expanded.height > compact.height && expanded.height <= 700,
               "Settings expand the popover without exceeding its height limit")
         store.showSettings = false
         check(abs(settle(host).height - compact.height) <= 1,
@@ -55,7 +55,7 @@ import UsageCore
         store.showSettings = false
         store.error = "A connection error with enough text to wrap onto more than one line."
         let disconnected = settle(host)
-        check(disconnected.height > 200 && disconnected.height <= 600,
+        check(disconnected.height > 200 && disconnected.height <= 700,
               "The disconnected state remains visible")
         store.error = nil
         store.isLoading = true

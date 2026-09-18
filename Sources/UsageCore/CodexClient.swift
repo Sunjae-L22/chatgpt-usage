@@ -50,7 +50,7 @@ public struct CodexClient: Sendable {
             catch { throw UsageError.disconnected }
         }
         try send(["id": 0, "method": "initialize", "params": ["clientInfo": [
-            "name": "chatgpt_usage", "title": "ChatGPT Usage", "version": "0.1.1"
+            "name": "chatgpt_usage", "title": "ChatGPT Usage", "version": "0.2.0"
         ]]])
         let fd = output.fileHandleForReading.fileDescriptor
         _ = fcntl(fd, F_SETFL, O_NONBLOCK)

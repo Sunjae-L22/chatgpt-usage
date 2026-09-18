@@ -34,6 +34,16 @@ check(abs(pace.elapsedPercent - 50) < 0.001, "Pacing uses actual window length a
 check(abs(pace.percentagePointsPerDay - 51/3.5) < 0.001, "Daily reference divides remaining quota by remaining days")
 check(window.pace(at: Date(timeIntervalSince1970: 2000604800)) == nil, "Expired reset does not fabricate new quota")
 check(window.pace(at: Date(timeIntervalSince1970: 1999999999)) == nil, "Inconsistent future window does not produce pacing")
+check(abs(pace.remainingTimePercent - 50) < 0.001, "Half a window places time marker at 50 percent")
+check(abs(pace.quotaAheadPercentagePoints - 1) < 0.001, "Remaining quota 51 versus time 50 means 1 point spare")
+let late = window.pace(at: Date(timeIntervalSince1970: 2000453600))!
+check(abs(late.remainingTimePercent - 25) < 0.001, "Three quarters elapsed leaves a 25 percent time marker")
+var fastWindow = window
+fastWindow.usedPercent = 80
+check(abs(fastWindow.pace(at: half)!.quotaAheadPercentagePoints + 30) < 0.001, "Fast spending is shown as a negative quota balance")
+let start = window.pace(at: Date(timeIntervalSince1970: 2000000000))!
+check(abs(start.remainingTimePercent - 100) < 0.001, "Time marker begins at the full window boundary")
+check(missing.pace(at: half) == nil, "Missing time data has no pace marker")
 let duplicate = try decode("{\"rateLimits\":{\"primary\":\(weekly),\"secondary\":\(weekly)}}")
 check(duplicate.buckets[0].bucket.windows.count == 1, "Duplicate windows are not shown twice")
 check(CodexClient.discover(override: "/not/a/codex") == nil, "Invalid explicit binary does not silently use another account source")

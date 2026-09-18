@@ -13,7 +13,7 @@ The repository's [initial GitHub Actions run](https://github.com/Sunjae-L22/chat
 
 ## Automated checks
 
-`make test` runs 20 core/protocol assertions and 9 native SwiftUI popup layout assertions. Core/protocol coverage includes:
+`make test` runs 26 core/protocol assertions and 9 native SwiftUI popup layout assertions. Core/protocol coverage includes:
 
 - Weekly in `primary`, with `secondary: null`.
 - Five-hour and weekly windows together, identified by actual duration.
@@ -43,6 +43,12 @@ Public images are generated from sample data, not real account payloads.
 The v0.1.0 visual checks covered a separate dashboard window and rendered panel images. They missed the actual menu popup: its `ScrollView` had only a maximum height, so the menu host could measure it at zero height and display a thin strip.
 
 The menu now starts with an explicit usable height, measures its content, and caps the viewport to the display's available height. Longer content remains scrollable. The user opened the repaired menu-bar popup and confirmed that it displayed normally. The actual popup was then inspected through native accessibility and a screenshot: quota, reset time, and footer were visible; the expanded settings state was also observed in the accessibility tree. These checks are separate from the automated hosting-view layout assertions.
+
+## v0.2.0 time pace marker
+
+On 2026-09-18, all 26 core/protocol assertions and 9 popup layout assertions passed locally. New coverage checks half-window and three-quarter-window positions, positive and negative quota-versus-time balance, the start boundary, and missing timing. Existing checks cover expired and inconsistent windows.
+
+Korean and English sample-data panels were rendered and visually inspected: the bar, time marker, elapsed/remaining labels, pace comparison, reset information, and footer fit without clipping. These rendered panels and the automated popup checks do not constitute a new manual menu-click test; the user confirmation above applies to v0.1.1.
 
 ## Not yet verified
 

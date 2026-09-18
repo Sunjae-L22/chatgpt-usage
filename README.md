@@ -10,7 +10,7 @@ ChatGPT Usage is a small, unofficial native macOS app for **Codex subscription l
 
 It does **not** measure ordinary ChatGPT conversation message caps or OpenAI API spending. An account's reported quota percentage is not a remaining message or token count.
 
-<img src="docs/images/usage-demo-en.png" width="370" alt="Demo with sample data: weekly quota, reset countdown, and a daily pacing reference">
+<img src="docs/images/usage-demo-en.png" width="370" alt="Demo with sample data: weekly quota with a time pace marker, elapsed time, and reset countdown">
 
 *The screenshot uses clearly labeled sample data. No personal account details are published.*
 
@@ -25,6 +25,14 @@ It does **not** measure ordinary ChatGPT conversation message caps or OpenAI API
 - Marks failed or old readings as stale. Crossing a reset time never silently creates a new 100% allowance.
 - English and Korean interface; optional launch at login.
 
+## The pace line
+
+The quota bar and vertical time marker both count down from 100% to 0%. The bar shows quota remaining; the marker shows the fraction of the reported window still left before reset. Underneath, the panel shows elapsed and remaining time as percentages.
+
+If the quota bar extends past the marker, you have more quota left than an even-use pace would leave. If it falls short, you have used it faster. For example, 22% quota remaining and 21% time remaining means 1 percentage point of spare quota relative to that pace.
+
+This reference uses the account's reported duration and reset time, including non-weekly windows. It is not a forecast or an official daily allowance. Stale readings, missing timing, and expired or inconsistent windows hide the marker and comparison.
+
 ## Setup
 
 1. Install [Codex](https://developers.openai.com/codex/cli/) or the Mac desktop app that includes the Codex executable.
@@ -32,7 +40,7 @@ It does **not** measure ordinary ChatGPT conversation message caps or OpenAI API
 3. Download and unzip the Apple Silicon app from [Releases](https://github.com/Sunjae-L22/chatgpt-usage/releases), move it to a permanent folder such as Applications, and open it.
 4. Look for `C …%` in the menu bar. Click it to see quota details. If Codex is not detected, use **Settings → Choose Codex…**.
 
-**v0.1.1 is an experimental, ad-hoc-signed build. It is not Apple-notarized.** macOS may block a downloaded binary. Review the source or build locally if you prefer; this project does not ask you to disable Gatekeeper. The downloadable build is Apple Silicon only. The deployment target is macOS 14; see [verification](docs/VERIFICATION.md) for the actually tested environment.
+**v0.2.0 is an experimental, ad-hoc-signed build. It is not Apple-notarized.** macOS may block a downloaded binary. Review the source or build locally if you prefer; this project does not ask you to disable Gatekeeper. The downloadable build is Apple Silicon only. The deployment target is macOS 14; see [verification](docs/VERIFICATION.md) for the actually tested environment.
 
 The app finds Codex in common desktop-app, Homebrew, user-local, and `PATH` locations. `CODEX_BINARY_PATH` is also supported for command-line use. A path selected in Settings takes precedence. This app does not bundle Codex.
 
@@ -86,7 +94,7 @@ The motivation came from using [Claude Usage Tracker](https://github.com/hamed-e
 
 - Plan names are displayed as reported. An internal identifier such as `prolite` is not converted into an assumed retail plan name.
 - The upstream protocol and account limits can change. Missing fields remain unknown.
-- No automatic app updater, threshold notifications, account switching, or persistent history in v0.1.1.
+- No automatic app updater, threshold notifications, account switching, or persistent history in v0.2.0.
 - Launch-at-login requires a permanent app location and may require approval in macOS settings.
 
 Feedback is welcome, especially on different account window shapes, accessibility, and macOS compatibility. See [CONTRIBUTING](CONTRIBUTING.md), [SECURITY](SECURITY.md), and [verification](docs/VERIFICATION.md). Never include tokens or personal account responses in an issue.
