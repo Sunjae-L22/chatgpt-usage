@@ -13,7 +13,7 @@ The repository's [initial GitHub Actions run](https://github.com/Sunjae-L22/chat
 
 ## Automated checks
 
-`make test` runs 26 core/protocol assertions and 9 native SwiftUI popup layout assertions. Core/protocol coverage includes:
+`make test` runs 30 core/protocol assertions and 9 native SwiftUI popup layout assertions. Core/protocol coverage includes:
 
 - Weekly in `primary`, with `secondary: null`.
 - Five-hour and weekly windows together, identified by actual duration.
@@ -49,6 +49,12 @@ The menu now starts with an explicit usable height, measures its content, and ca
 On 2026-09-18, all 26 core/protocol assertions and 9 popup layout assertions passed locally. New coverage checks half-window and three-quarter-window positions, positive and negative quota-versus-time balance, the start boundary, and missing timing. Existing checks cover expired and inconsistent windows.
 
 Korean and English sample-data panels were rendered and visually inspected: the bar, time marker, elapsed/remaining labels, pace comparison, reset information, and footer fit without clipping. These rendered panels and the automated popup checks do not constitute a new manual menu-click test; the user confirmation above applies to v0.1.1.
+
+## v0.2.1 desktop update compatibility
+
+On 2026-09-30, the updated ChatGPT desktop application contained Codex CLI 0.159.0 under `Resources/codex-cli/bin/codex`, rather than the previous `Resources/codex` path. Detection now supports the launcher, its packaged executable, and older desktop bundles. Explicit executable overrides still take precedence.
+
+All 30 core/protocol checks and 9 popup checks passed. Four new checks use temporary desktop bundle fixtures for the new launcher, direct packaged executable, legacy layout, and explicit override. A live quota read also succeeded with `CODEX_BINARY_PATH` removed and `PATH=/usr/bin:/bin`, confirming desktop detection without a shell-installed CLI. The ad-hoc bundle signature passed verification and the updated app was installed and launched. A manual visual check of this version was not performed.
 
 ## Not yet verified
 

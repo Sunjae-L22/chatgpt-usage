@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.2.1 — 2026-09-30
+
+- Restore desktop Codex detection after its bundled CLI moved into `Resources/codex-cli`.
+- Support the new CLI launcher and packaged executable while preserving legacy paths and explicit overrides.
+- Add four bundle-discovery regression checks.
+
 ## 0.2.0 — 2026-09-18
 
 - Add a time-remaining marker to the quota bar, with elapsed and remaining window percentages.

@@ -57,6 +57,22 @@ func fake(_ name: String, _ script: String) throws -> String {
     try FileManager.default.setAttributes([.posixPermissions: 0o700], ofItemAtPath: path.path)
     return path.path
 }
+let mockBundle = directory.appendingPathComponent("ChatGPT.app")
+let resources = mockBundle.appendingPathComponent("Contents/Resources")
+let newBin = resources.appendingPathComponent("codex-cli/bin/codex")
+let packagedBin = resources.appendingPathComponent("codex-cli/CodexCLI.app/Contents/MacOS/codex")
+let legacyBin = resources.appendingPathComponent("codex")
+for path in [legacyBin, packagedBin, newBin] {
+    try FileManager.default.createDirectory(at: path.deletingLastPathComponent(), withIntermediateDirectories: true)
+    try "#!/bin/sh\nexit 0\n".write(to: path, atomically: true, encoding: .utf8)
+    try FileManager.default.setAttributes([.posixPermissions: 0o700], ofItemAtPath: path.path)
+}
+check(CodexClient.discover(appBundles: [mockBundle.path]) == newBin.path, "Updated desktop bundle prefers the supported CLI launcher")
+try FileManager.default.removeItem(at: newBin)
+check(CodexClient.discover(appBundles: [mockBundle.path]) == packagedBin.path, "Packaged CLI executable is found without its launcher")
+try FileManager.default.removeItem(at: packagedBin)
+check(CodexClient.discover(appBundles: [mockBundle.path]) == legacyBin.path, "Older desktop bundle remains supported")
+check(CodexClient.discover(override: legacyBin.path, appBundles: [mockBundle.path]) == legacyBin.path, "Explicit executable preference remains authoritative")
 let success = try fake("success", """
 IFS= read -r request
 case "$request" in *initialize*) ;; *) exit 1;; esac

@@ -250,7 +250,7 @@ struct UsagePanel: View {
                 Button("GitHub") { openURL("https://github.com/Sunjae-L22/chatgpt-usage") }
                 Button(store.t("Usage dashboard", "사용량 페이지")) { openURL("https://chatgpt.com/codex/settings/usage") }
             }
-            Text(store.t("v0.2.0 · No app telemetry. Codex handles sign-in and the network request. Plan names are displayed as reported.", "v0.2.0 · 앱 자체 분석 수집 없음. 인증과 조회 요청은 Codex가 처리합니다. 요금제명은 서버 값 그대로 표시합니다.")).font(.caption2).foregroundStyle(.secondary)
+            Text(store.t("v0.2.1 · No app telemetry. Codex handles sign-in and the network request. Plan names are displayed as reported.", "v0.2.1 · 앱 자체 분석 수집 없음. 인증과 조회 요청은 Codex가 처리합니다. 요금제명은 서버 값 그대로 표시합니다.")).font(.caption2).foregroundStyle(.secondary)
         }.padding(12).background(.quaternary.opacity(0.4), in: RoundedRectangle(cornerRadius: 10))
     }
     private func openURL(_ value: String) { if let url = URL(string: value) { NSWorkspace.shared.open(url) } }

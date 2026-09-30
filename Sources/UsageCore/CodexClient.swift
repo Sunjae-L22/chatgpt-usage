@@ -4,21 +4,26 @@ import Darwin
 public struct CodexClient: Sendable {
     public init() {}
 
-    public static func discover(override: String? = nil) -> String? {
+    public static func discover(override: String? = nil, appBundles: [String]? = nil) -> String? {
         let fm = FileManager.default
         if let override, !override.isEmpty {
             return fm.isExecutableFile(atPath: override) ? override : nil
         }
         let home = fm.homeDirectoryForCurrentUser.path
-        let candidates = [
-            ProcessInfo.processInfo.environment["CODEX_BINARY_PATH"],
-            "/Applications/ChatGPT.app/Contents/Resources/codex",
-            "/Applications/Codex.app/Contents/Resources/codex",
-            "\(home)/Applications/ChatGPT.app/Contents/Resources/codex",
-            "\(home)/Applications/Codex.app/Contents/Resources/codex",
-            "/opt/homebrew/bin/codex", "/usr/local/bin/codex",
-            "\(home)/.local/bin/codex", "\(home)/.npm-global/bin/codex"
-        ].compactMap { $0 }
+        let bundles = appBundles ?? [
+            "/Applications/ChatGPT.app", "/Applications/Codex.app",
+            "\(home)/Applications/ChatGPT.app", "\(home)/Applications/Codex.app"
+        ]
+        let desktopCandidates = bundles.flatMap { bundle in
+            ["\(bundle)/Contents/Resources/codex-cli/bin/codex",
+             "\(bundle)/Contents/Resources/codex-cli/CodexCLI.app/Contents/MacOS/codex",
+             "\(bundle)/Contents/Resources/codex"]
+        }
+        let candidates = [ProcessInfo.processInfo.environment["CODEX_BINARY_PATH"]].compactMap { $0 }
+            + desktopCandidates + [
+                "/opt/homebrew/bin/codex", "/usr/local/bin/codex",
+                "\(home)/.local/bin/codex", "\(home)/.npm-global/bin/codex"
+            ]
         return (candidates + (ProcessInfo.processInfo.environment["PATH"] ?? "")
             .split(separator: ":").map { "\($0)/codex" }).first { fm.isExecutableFile(atPath: $0) }
     }
@@ -50,7 +55,7 @@ public struct CodexClient: Sendable {
             catch { throw UsageError.disconnected }
         }
         try send(["id": 0, "method": "initialize", "params": ["clientInfo": [
-            "name": "chatgpt_usage", "title": "ChatGPT Usage", "version": "0.2.0"
+            "name": "chatgpt_usage", "title": "ChatGPT Usage", "version": "0.2.1"
         ]]])
         let fd = output.fileHandleForReading.fileDescriptor
         _ = fcntl(fd, F_SETFL, O_NONBLOCK)
