@@ -1,0 +1,8 @@
+{
+  "five_hour": { "utilization": 42.5, "resets_at": "2026-10-17T12:00:00Z" },
+  "seven_day": { "utilization": 63, "resets_at": "2026-10-21T12:00:00Z" },
+  "seven_day_sonnet": { "utilization": 16, "resets_at": "2026-10-21T12:00:00Z" },
+  "seven_day_opus": null,
+  "extra_usage": { "is_enabled": true, "monthly_limit": 12345, "used_credits": 678 },
+  "unknown_sensitive_field": "fixture-only-not-a-credential"
+}

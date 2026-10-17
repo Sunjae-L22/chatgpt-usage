@@ -1,0 +1,18 @@
+[
+  {
+    "data": {
+      "viewer": {
+        "rpcs": {
+          "getUsageInfo": {
+            "subscriptionTier": "TIER1",
+            "pools": [
+              { "poolType": "GXU_FIVE_HOURLY", "percentageUsed": 0.425, "gxu": { "windowRefreshesAt": "2026-10-17T12:00:00.125Z" } },
+              { "poolType": "GXU_WEEKLY", "percentageUsed": 0.63, "gxu": { "windowRefreshesAt": "2026-10-21T12:00:00Z" } },
+              { "poolType": "UNVERIFIED_OTHER_SCOPE", "percentageUsed": 0.1 }
+            ]
+          }
+        }
+      }
+    }
+  }
+]

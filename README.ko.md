@@ -1,70 +1,49 @@
-# ChatGPT Usage
+# AI Usage
 
-**내 계정의 Codex 한도와 초기화 시간을 Mac 메뉴 막대에서 확인한다.**
+**Codex·Claude·Gemini의 남은 한도를 Mac 메뉴 막대 한곳에서.**
 
-[English](README.md) · [다운로드](https://github.com/Sunjae-L22/chatgpt-usage/releases)
+[English](README.md) · [연결 방법](docs/BRIDGE.md) · [개인정보 처리](docs/PRIVACY.md) · [검증 기록](docs/VERIFICATION-0.3.md)
 
-[개발기](https://it-study-2002.tistory.com/entry/chatgpt-usage-codex-macos) · [GitHub 자동 검증 결과](https://github.com/Sunjae-L22/chatgpt-usage/actions/runs/34976462549)
+기존 ChatGPT Usage를 세 서비스용으로 확장한 macOS 앱이다. 서비스별 남은 한도, 초기화까지 남은 시간, 사용 페이스를 비교한다. 각 서비스의 한도는 별개로 표시한다.
 
-ChatGPT 계정에 연결된 **Codex 구독 한도**를 보여주는 비공식 macOS 앱이다. 요금제 이름으로 한도를 추측하지 않고, 서버가 실제로 반환한 기간과 초기화 시각을 표시한다. 주간 한도만 있는 계정에는 주간 카드 하나가 나타난다.
+<img src="docs/images/ai-usage-demo-ko.png" width="460" alt="예시 데이터로 표시한 Codex, Claude, Gemini 한도와 시간 기준선">
 
-일반 ChatGPT 대화의 모델별 메시지 한도나 OpenAI API 비용을 측정하는 앱은 아니다. 한도 비율을 남은 메시지 수나 토큰 수로 바꾸지 않는다.
+화면은 DEMO 예시 데이터다. 실제 계정 세 개의 연결 성공을 뜻하지 않는다.
 
-<img src="docs/images/usage-demo-ko.png" width="370" alt="예시 데이터로 표시한 주간 남은 한도, 시간 페이스 기준선, 경과 시간과 초기화 시간">
+## 현재 상태
 
-*공개 화면은 데모 데이터다. 개인 계정 정보는 포함하지 않았다.*
+0.3.0 개발 베타. 현재 Mac에서 세 서비스의 실제 연결과 공식 사용량 화면 대조를 마쳤다. 기존 v0.2.1 공개 다운로드는 Codex 전용이다. 새 버전의 실제 연결 검증 범위는 [검증 기록](docs/VERIFICATION-0.3.md)에 구분했다.
 
-## 기능
+- **Codex:** 설치된 Codex의 ChatGPT 구독 로그인으로 조회한다. 일반 ChatGPT 대화 한도·API 비용과는 다르다.
+- **Claude:** Claude Code의 실험적 사용량 요청 또는 로그인된 Claude 웹 + 확장으로 연결한다.
+- **Gemini:** 로그인된 Gemini 웹 + 확장으로 Gemini 앱 요금제 한도를 읽는다. Argon 사용이 반영될 수 있지만 Argon만의 한도라고 가정하지 않는다. Antigravity 한도와는 구분한다.
 
-- 메뉴 막대에 선택한 항목의 남은 한도 표시. 주간 한도가 있으면 이를 우선 표시한다.
-- 실제 응답에 따라 주간·5시간·기타 기간 표시. 별도 모델 한도는 선택 메뉴로 전환한다.
-- 요금제 식별자 원문, 현지 시간대의 초기화 날짜, 남은 시간 표시.
-- 1일 이상의 기간에 대해 `남은 한도 ÷ 초기화까지 남은 일수`로 균등 배분 참고값 제공. 공식 일일 한도나 사용량 예측은 아니다.
-- 실행 시·5분마다·절전 복귀 시 자동 조회, 수동 새로고침 지원.
-- 조회 실패·오래된 값·초기화 시각 경과 상태 구분.
-- 한국어·영어, 로그인 시 실행 옵션.
+색 막대는 남은 한도, 세로선은 남은 시간이다. 막대가 선보다 길면 균등하게 사용하는 기준보다 여유가 있다. 실제 일일 한도가 아닌 참고 기준이다. 연결 실패·오래된 데이터·초기화 시각이 지난 데이터는 표시를 구분한다.
 
-## 페이스메이커 읽는 법
+## 설치 및 연결
 
-한도 막대와 세로 기준선은 모두 100%에서 0%로 줄어든다. 막대는 **남은 한도**, 세로선은 **초기화까지 남은 시간의 비율**이다. 아래에는 경과 시간과 남은 시간 비율을 함께 표시한다.
-
-막대가 선보다 길면 균등하게 사용하는 페이스보다 여유가 있고, 짧으면 더 빠르게 사용한 상태다. 예를 들어 한도 22%, 시간 21%가 남았다면 균등 페이스보다 1%p 여유가 있다.
-
-서버가 보고한 기간과 초기화 시각으로 계산하며, 주간 외의 기간에도 적용한다. 실제 일일 한도나 예측값은 아니다. 오래된 조회값, 시간 정보 누락, 만료되거나 모순된 기간에는 기준선과 비교를 표시하지 않는다.
-
-## 설치
-
-1. [Codex](https://developers.openai.com/codex/cli/) 또는 Codex 실행 파일을 포함한 Mac 데스크톱 앱을 설치한다.
-2. Codex에 ChatGPT 계정으로 로그인한다. 브라우저 로그인만으로는 충분하지 않을 수 있다.
-3. [Releases](https://github.com/Sunjae-L22/chatgpt-usage/releases)에서 Apple Silicon용 ZIP을 받아 압축을 풀고 고정된 폴더에 앱을 둔다.
-4. 앱 실행 후 메뉴 막대의 `C …%`를 누른다. 자동 검색이 실패하면 설정에서 `codex` 실행 파일을 선택한다.
-
-v0.2.1은 실험용 버전이며 Apple 공증을 받지 않은 임시 서명 앱이다. 다운로드한 바이너리가 macOS에서 차단될 수 있다. 소스를 확인하고 직접 빌드하는 방법도 제공한다. 보안 기능을 끄도록 요구하지 않는다. 배포 파일은 Apple Silicon용이며, macOS 14를 최소 대상으로 빌드한다. 실제 검증 환경은 [검증 기록](docs/VERIFICATION.md)에 구분했다.
+macOS 14 이상, Apple Command Line Tools의 Swift 5.9 이상이 필요하다. 확장 테스트에는 Node를 사용한다. 앱은 임시 서명 상태이며 Apple 공증을 받지 않았다.
 
 ```sh
-git clone https://github.com/Sunjae-L22/chatgpt-usage.git
+git clone -b feat/multi-provider-usage https://github.com/Sunjae-L22/chatgpt-usage.git
 cd chatgpt-usage
 make test
 make bundle
-open "dist/ChatGPT Usage.app"
+open "dist/AI Usage.app"
 ```
 
-Swift 5.9 이상과 macOS 14 API를 지원하는 SDK가 포함된 Apple Command Line Tools가 필요하다. 외부 패키지 의존성은 없다. `make`는 `swiftc`를 직접 호출한다.
+1. Codex에 ChatGPT 계정으로 로그인한다.
+2. Chrome의 `chrome://extensions`에서 개발자 모드를 켜고 `압축해제된 확장 프로그램을 로드합니다`로 `browser-extension` 폴더를 선택한다.
+3. 앱 설정의 **연결 키 복사** → 확장에 붙여 넣고 연결한다.
+4. [Claude 사용량](https://claude.ai/settings/usage)과 [Gemini 사용량](https://gemini.google.com/usage)을 원하는 계정으로 열어 둔다.
+5. Chrome과 해당 탭이 열려 있으면 확장이 5분마다 조회한다. 웹 한도는 확장에서, CLI 한도는 앱에서 새로고침한다.
 
-## 데이터와 한도 해석
+앱 설정의 **확장 폴더 보기**로 동봉된 확장을 찾을 수 있다. 불러온 확장 폴더는 계속 같은 위치에 두어야 한다. Chrome 웹 스토어 배포는 아직 하지 않았다.
 
-설치된 `codex app-server`에 공식 문서의 `account/rateLimits/read`를 요청한다. 인증과 서버 통신은 Codex가 처리한다. 이 앱은 인증 파일·브라우저 쿠키·키체인·대화 내역을 직접 읽지 않으며 모델 대화를 실행하지 않는다. 앱 자체 분석 수집은 없고, 조회값은 메모리에만 유지한다.
+비밀번호·쿠키를 앱에 복사하지 않는다. 확장이 브라우저의 기존 로그인을 사용해 사용량 요청을 보낸 뒤, 정리한 한도 데이터만 내 Mac의 인증된 로컬 연결로 전달한다. 별도 분석 수집이나 클라우드 중계는 없다.
 
-`primary`가 항상 5시간인 것은 아니다. `windowDurationMins`가 10080이면 주간, 300이면 5시간으로 해석한다. 다중 한도 응답을 우선 사용하며, 없는 값은 0으로 바꾸지 않는다. 초기화 시간이 지났어도 새 응답을 받기 전에는 100% 복구됐다고 표시하지 않는다.
+Windows는 후속 계획이며 아직 구현되지 않았다. 우선 Mac에서 실제 계정 연결과 설치 편의성을 검증한다.
 
-`prolite` 같은 식별자는 서버 값 그대로 보여준다. 이를 임의의 판매 요금제 이름으로 바꾸지 않는다. [공식 프로토콜 문서](https://developers.openai.com/codex/app-server/)
+기존 [CodexBar](https://github.com/steipete/CodexBar)에도 여러 서비스 통합 기능이 있다. 이 프로젝트는 세 서비스를 간결하게 비교하는 화면과 공통 페이스 기준에 집중한다. 최초 앱이라고 주장하지 않는다. Codex가 구현과 검증을 도왔다.
 
-## 프로젝트 배경
-
-Claude Usage Tracker를 사용하다 ChatGPT로 옮기면서 시작했다. 조사 결과 [CodexBar](https://github.com/steipete/CodexBar), [Codex Usage Bar](https://github.com/CMMUU/codex-usage-bar) 같은 기존 앱을 확인했다. 최초 앱이라는 주장 대신 계정별 기간 처리와 한국어 표시, 간단한 사용 페이스 참고값에 집중했다.
-
-기존 Claude 앱의 코드와 디자인 자산을 복사하지 않고 새로 작성했다. Codex를 구현과 검증에 활용했다. 현재 버전에는 사용 이력 저장, 알림, 계정 전환, 자동 업데이트가 없다.
-
-오류 제보 시 토큰·개인 계정 정보는 포함하지 말아야 한다. [기여 안내](CONTRIBUTING.md) · [보안 안내](SECURITY.md)
-
-MIT 라이선스. OpenAI 또는 Anthropic의 공식 제품이 아니다.
+MIT 라이선스. OpenAI·Anthropic·Google과 관계없는 비공식 프로젝트다.

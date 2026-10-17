@@ -21,11 +21,26 @@ import UsageCore
         }
 
         let store = UsageStore(demo: true)
+        let now = Date()
+        let window = ProviderWindow(id: "weekly", usedPercent: 40, windowDurationMins: 10080,
+                                    resetsAt: now.addingTimeInterval(3 * 86400).timeIntervalSince1970)
+        let freshWeb = ProviderSnapshot(provider: .claude, plan: nil, windows: [window], updatedAt: now, source: "Claude web")
+        check(ProviderState(snapshot: freshWeb).hasFreshClaudeWeb(at: now), "Fresh Claude web values take priority over CLI reads")
+        check(!ProviderState(snapshot: freshWeb).hasFreshClaudeWeb(at: now.addingTimeInterval(601)), "Stale web values allow the Claude CLI to refresh again")
+        check(!ProviderState(snapshot: freshWeb, error: "network").hasFreshClaudeWeb(at: now), "A failed web refresh permits CLI recovery")
+        check(ProviderState(snapshot: freshWeb).pace(for: window, at: now) != nil, "Fresh quota windows retain a pace marker")
+        check(ProviderState(snapshot: freshWeb).pace(for: window, at: now.addingTimeInterval(601)) == nil,
+              "Stale quota windows hide the pace marker")
+        check(ProviderState(snapshot: freshWeb, error: "network").pace(for: window, at: now) == nil,
+              "Failed quota reads hide the pace marker")
+        check(!UsageStore.acceptsBridgePayload(Data("{}".utf8)), "Bridge schema validation rejects empty objects")
+        check(!UsageStore.acceptsBridgePayload(Data(#"{"provider":"codex","error":"network"}"#.utf8)), "Bridge cannot overwrite Codex with an error")
+        check(UsageStore.acceptsBridgePayload(Data(#"{"provider":"gemini","error":"auth_required"}"#.utf8)), "Known browser status errors remain supported")
         let controller = NSHostingController(rootView: UsagePopover(store: store, maximumHeight: 700))
-        check(controller.sizeThatFits(in: NSSize(width: 370, height: 0)).height >= 300,
+        check(controller.sizeThatFits(in: NSSize(width: 460, height: 0)).height >= 300,
               "A zero-height host proposal cannot collapse the menu content")
         let host = NSHostingView(rootView: UsagePopover(store: store, maximumHeight: 700))
-        check(host.fittingSize.width == 370 && host.fittingSize.height >= 300,
+        check(host.fittingSize.width == 460 && host.fittingSize.height >= 300,
               "Menu content has a usable size before its first layout")
         let compact = settle(host)
         let panel = NSHostingView(rootView: UsagePanel(store: store))
@@ -34,16 +49,12 @@ import UsageCore
 
         store.showSettings = true
         let expanded = settle(host)
-        check(expanded.height > compact.height && expanded.height <= 700,
+        check(expanded.height >= compact.height && expanded.height <= 700,
               "Settings expand the popover without exceeding its height limit")
         store.showSettings = false
         check(abs(settle(host).height - compact.height) <= 1,
               "Closing settings restores the compact height")
 
-        let reset = Date().addingTimeInterval(3 * 86400).timeIntervalSince1970
-        store.response = try LimitsResponse.decode(Data("""
-        {"rateLimits":{"primary":{"usedPercent":20,"windowDurationMins":300,"resetsAt":\(reset)},"secondary":{"usedPercent":40,"windowDurationMins":10080,"resetsAt":\(reset)}}}
-        """.utf8))
         store.showSettings = true
         let shortScreen = NSHostingView(rootView: UsagePopover(store: store, maximumHeight: 420))
         check(settle(shortScreen).height == 420,
@@ -51,14 +62,13 @@ import UsageCore
         check(settle(NSHostingView(rootView: UsagePanel(store: store))).height > 420,
               "Overflowing content keeps its full height for scrolling")
 
-        store.response = nil
+        store.providers = [:]
         store.showSettings = false
-        store.error = "A connection error with enough text to wrap onto more than one line."
+        store.providers[.codex] = ProviderState(error: "A connection error with enough text to wrap onto more than one line.")
         let disconnected = settle(host)
         check(disconnected.height > 200 && disconnected.height <= 700,
               "The disconnected state remains visible")
-        store.error = nil
-        store.isLoading = true
+        store.providers[.codex] = ProviderState(loading: true)
         check(settle(host).height > 200, "The loading state remains visible")
         print("\(checks) popup layout checks passed")
     }

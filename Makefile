@@ -6,6 +6,6 @@ test:
 bundle:
 	bash scripts/bundle.sh
 run: bundle
-	open "dist/ChatGPT Usage.app"
+	open "dist/AI Usage.app"
 check: build
 	.build/direct/ChatGPTUsage --check

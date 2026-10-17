@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="stylesheet" href="popup.css"><title>AI Usage</title></head>
+<body>
+  <header><div class="symbol" aria-hidden="true">◴</div><div><h1>AI Usage</h1><p>Browser connection</p></div><span id="connection" class="badge">Not paired</span></header>
+  <main>
+    <form id="pair-form"><label for="token">Pairing code from the Mac app</label><div class="input-row"><input id="token" type="password" autocomplete="off" spellcheck="false" placeholder="Paste code" aria-describedby="pair-help"><button id="save" type="submit">Pair</button></div><p id="pair-help" class="muted">AI Usage → Settings → Copy pairing code</p></form>
+    <p id="feedback" role="status" aria-live="polite"></p>
+    <section aria-label="Provider connection status">
+      <article><div class="provider"><i class="claude"></i><h2>Claude</h2><button class="link" id="open-claude">Open usage ↗</button></div><p id="claude-status" class="status">Waiting for connection</p></article>
+      <article><div class="provider"><i class="gemini"></i><h2>Gemini</h2><button class="link" id="open-gemini">Open usage ↗</button></div><p id="gemini-status" class="status">Waiting for connection</p></article>
+    </section>
+    <div class="actions"><button id="refresh">Refresh both</button><button id="disconnect" class="quiet">Disconnect</button></div>
+    <p class="footnote">Keep a signed-in tab open for each service. Quotas refresh every 5 minutes. Only quota summaries go to the app on this Mac.</p>
+    <p class="footnote">With several tabs open, the active or most recently accessed tab is used.</p>
+  </main>
+  <script src="popup.js"></script>
+</body>
+</html>

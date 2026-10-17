@@ -13,7 +13,7 @@ private struct PanelHeightKey: PreferenceKey {
 struct UsagePopover: View {
     @ObservedObject var store: UsageStore
     var maximumHeight: CGFloat = 760
-    @State private var contentHeight: CGFloat = 560
+    @State private var contentHeight: CGFloat = 680
     @State private var screenHeight: CGFloat = 760
 
     var body: some View {
@@ -26,7 +26,7 @@ struct UsagePopover: View {
                     }
                 }
         }
-        .frame(width: 370, height: min(contentHeight, maximumHeight, screenHeight))
+        .frame(width: 460, height: min(contentHeight, maximumHeight, screenHeight))
         .onPreferenceChange(PanelHeightKey.self) { height in
             guard height.isFinite, height > 0 else { return }
             let measured = ceil(height)

@@ -1,102 +1,76 @@
-# ChatGPT Usage
+# AI Usage
 
-**Your actual Codex quota and reset time, in the Mac menu bar.**
+**Codex, Claude, and Gemini quota — one glance at your Mac menu bar.**
 
-[한국어](README.ko.md) · [Download](https://github.com/Sunjae-L22/chatgpt-usage/releases) · [Report a problem](https://github.com/Sunjae-L22/chatgpt-usage/issues)
+[한국어](README.ko.md) · [Stable Codex-only releases](https://github.com/Sunjae-L22/chatgpt-usage/releases) · [Connections](docs/BRIDGE.md) · [Privacy](docs/PRIVACY.md)
 
-[Development story (Korean)](https://it-study-2002.tistory.com/entry/chatgpt-usage-codex-macos) · [Verified CI run](https://github.com/Sunjae-L22/chatgpt-usage/actions/runs/34976462549)
+AI Usage expands the original ChatGPT Usage app into a small native macOS dashboard. Compare remaining quota, reset countdowns, and a time pace line across three services. Separate services keep their own quotas; there is no invented combined percentage.
 
-ChatGPT Usage is a small, unofficial native macOS app for **Codex subscription limits associated with your ChatGPT account**. It displays the windows your account actually reports, including weekly-only accounts, instead of assuming every plan has a five-hour limit.
+<img src="docs/images/ai-usage-demo-en.png" width="460" alt="Demo: Codex, Claude and Gemini quota rows with remaining-time markers">
 
-It does **not** measure ordinary ChatGPT conversation message caps or OpenAI API spending. An account's reported quota percentage is not a remaining message or token count.
+*Sample data, labeled DEMO. This image is not a claim of three live account connections.*
 
-<img src="docs/images/usage-demo-en.png" width="370" alt="Demo with sample data: weekly quota with a time pace marker, elapsed time, and reset countdown">
+## Status: 0.3.0 development beta
 
-*The screenshot uses clearly labeled sample data. No personal account details are published.*
+The three-provider app and Chrome extension are implemented; all three connections have been verified on the author’s Mac against real account data. See [verification](docs/VERIFICATION-0.3.md) for the exact live checks. The older v0.2.1 download remains Codex-only until a new release is published. This is an unofficial project; provider protocols can change.
 
-## What it does
+| Service | What the app reads | Connection |
+|---|---|---|
+| Codex | Subscription quota associated with your ChatGPT login | Installed Codex app-server |
+| Claude | Claude plan windows and supported model-specific windows | Claude Code experimental usage protocol, or signed-in Claude website + extension |
+| Gemini | Gemini app plan windows, including usage of Argon | Signed-in Gemini website + extension |
 
-- Menu bar percentage shows **remaining** quota for the selected bucket: weekly when available, otherwise the longest reported window.
-- Shows all reported primary/secondary windows by their actual duration. A weekly-only account gets one card.
-- Lets you switch between separately reported model or product buckets.
-- Displays the server-reported plan identifier, reset timestamp in your local timezone, and countdown.
-- Offers a simple daily pacing reference for windows of at least one day: `remaining quota / days until reset`. This is an even allocation, **not a forecast or an official daily limit**.
-- Refreshes on launch, every five minutes, on wake, and when you open the panel after a minute. Manual refresh is available.
-- Marks failed or old readings as stale. Crossing a reset time never silently creates a new 100% allowance.
-- English and Korean interface; optional launch at login.
+Ordinary ChatGPT chat caps, API spending, token counts, and Antigravity quotas are outside this display. A Gemini app quota is not necessarily an Argon-only quota.
 
-## The pace line
+## At a glance
 
-The quota bar and vertical time marker both count down from 100% to 0%. The bar shows quota remaining; the marker shows the fraction of the reported window still left before reset. Underneath, the panel shows elapsed and remaining time as percentages.
+- Three compact service cards; extra model windows expand on demand.
+- **Remaining** quota, actual reset countdown, and last update time for each service.
+- Colored bar = quota remaining. Vertical line = time remaining in that window.
+- If the bar extends beyond the line, you are spending more slowly than an even pace. This is a reference, **not an official daily allowance**.
+- Missing data stays unknown. Stale or failed readings are marked; expired windows never silently become 100%.
+- Integer Codex data stays integer. Genuine fractional provider data can display one decimal place.
+- English/Korean, light/dark appearance, optional launch at login.
+- No telemetry, no model turns, no cloud relay. Quota values stay in memory.
 
-If the quota bar extends past the marker, you have more quota left than an even-use pace would leave. If it falls short, you have used it faster. For example, 22% quota remaining and 21% time remaining means 1 percentage point of spare quota relative to that pace.
+## Build and connect
 
-This reference uses the account's reported duration and reset time, including non-weekly windows. It is not a forecast or an official daily allowance. Stale readings, missing timing, and expired or inconsistent windows hide the marker and comparison.
-
-## Setup
-
-1. Install [Codex](https://developers.openai.com/codex/cli/) or the Mac desktop app that includes the Codex executable.
-2. Sign in to Codex using your **ChatGPT account**. Being signed in only to a browser tab may not be enough.
-3. Download and unzip the Apple Silicon app from [Releases](https://github.com/Sunjae-L22/chatgpt-usage/releases), move it to a permanent folder such as Applications, and open it.
-4. Look for `C …%` in the menu bar. Click it to see quota details. If Codex is not detected, use **Settings → Choose Codex…**.
-
-**v0.2.1 is an experimental, ad-hoc-signed build. It is not Apple-notarized.** macOS may block a downloaded binary. Review the source or build locally if you prefer; this project does not ask you to disable Gatekeeper. The downloadable build is Apple Silicon only. The deployment target is macOS 14; see [verification](docs/VERIFICATION.md) for the actually tested environment.
-
-The app supports both the current `Resources/codex-cli` and older `Resources/codex` desktop bundle layouts. It finds Codex in common desktop-app, Homebrew, user-local, and `PATH` locations. `CODEX_BINARY_PATH` is also supported for command-line use. A path selected in Settings takes precedence. This app does not bundle Codex.
-
-## Build from source
-
-Requires Apple Command Line Tools with Swift 5.9+ and a macOS SDK supporting macOS 14 APIs. No third-party package dependencies or Xcode project are required.
+macOS 14+, Apple Command Line Tools with Swift 5.9+. Node is used only for extension tests. No third-party packages are required. The app is ad-hoc signed and not notarized.
 
 ```sh
-git clone https://github.com/Sunjae-L22/chatgpt-usage.git
+git clone -b feat/multi-provider-usage https://github.com/Sunjae-L22/chatgpt-usage.git
 cd chatgpt-usage
 make test
 make bundle
-open "dist/ChatGPT Usage.app"
+open "dist/AI Usage.app"
 ```
 
-`make` invokes `swiftc` directly and produces a statically linked app core for the current Mac architecture. A Swift Package manifest is also included for editors. The canonical build and verification commands are `make test` and `make bundle`.
+1. Sign in to the installed Codex app or CLI with ChatGPT. The app detects current and older desktop bundle layouts.
+2. For browser quotas, open Chrome → `chrome://extensions`, enable developer mode, then **Load unpacked** → the `browser-extension` folder. Review its [permissions and code](browser-extension/README.md) first.
+3. In AI Usage settings, **Copy pairing key**. Paste it into the extension popup and pair.
+4. Open [Claude usage](https://claude.ai/settings/usage) and [Gemini usage](https://gemini.google.com/usage), using the intended account. Keep a signed-in tab for each service open.
+5. The extension refreshes every five minutes while Chrome and the pages are open. Its Refresh button refreshes browser sources. The app's Refresh button refreshes local CLI sources.
+
+The extension is bundled inside the app's Resources folder; **Reveal extension** opens it in Finder. Do not delete or move that folder after loading it. It is not published in the Chrome Web Store yet.
+
+The native listener accepts authenticated quota updates only on `127.0.0.1:49627`. No cookies or upstream tokens are copied into the native app. The extension uses the browser's existing session to request each site's quota endpoint. Read [privacy](docs/PRIVACY.md) and the [bridge protocol](docs/BRIDGE.md).
+
+## Development
 
 ```sh
-make check                  # Live quota read; prints quota fields only
-make run                    # Build, bundle, and open
+make check  # Real Codex quota read; no model prompt
+.build/direct/ChatGPTUsage --render-demo /tmp/ai-usage.png --language en
+.build/direct/ChatGPTUsage --render-demo /tmp/ai-usage-light.png --language ko --light
 ```
 
-For shareable screenshots without using a real account:
+`Sources/UsageCore` normalizes provider snapshots; `Sources/ChatGPTUsage` renders the Mac UI and receives browser updates; `browser-extension` reads provider-specific quota endpoints. The JSON bridge and parsers can be reused in a future Windows app. **There is no Windows app yet.**
 
-```sh
-.build/direct/ChatGPTUsage --render-demo /tmp/usage-demo.png --language en
-```
+## Why this project?
 
-## How it works
+[CodexBar](https://github.com/steipete/CodexBar) already supports multiple services. This project focuses on three services, a simple shared pace display, and Korean/English UI. It is not the first quota monitor. Its Gemini endpoint research benefited from CodexBar's published implementation; see [acknowledgments](docs/ACKNOWLEDGMENTS.md).
 
-```text
-SwiftUI menu bar → local codex app-server → authenticated Codex service
-                  initialize
-                  initialized
-                  account/rateLimits/read
-```
+The original project was inspired by using Claude Usage Tracker. Codex assisted with implementation and verification. The [original development story](https://it-study-2002.tistory.com/entry/chatgpt-usage-codex-macos) describes the earlier Codex-only version.
 
-The app starts a short-lived local subprocess, performs the documented initialization handshake, requests rate limits, and closes the subprocess. It uses the multi-bucket result when present and the legacy result as a fallback. `windowDurationMins` determines the labels; `primary` is never assumed to mean five hours.
+Feedback on account window shapes and setup friction is welcome. Never attach cookies, pairing keys, raw account responses, or personal screenshots to an issue.
 
-Authentication and the upstream network request are handled by the installed Codex executable. The app does not directly read `auth.json`, browser cookies, Keychain credentials, session histories, or conversation contents. It does not start a model turn. It stores only language and binary-path preferences; quota readings stay in memory. App-server analytics are explicitly disabled for this subprocess.
-
-Official protocol reference: [Codex App Server](https://developers.openai.com/codex/app-server/).
-
-## Why another usage app?
-
-[CodexBar](https://github.com/steipete/CodexBar) and [Codex Usage Bar](https://github.com/CMMUU/codex-usage-bar) already exist. This is a small learning project focused on an account-driven display, Korean/English UI, and an easy-to-understand pacing reference. It is not presented as the first quota monitor or as a replacement for every feature in those projects.
-
-The motivation came from using [Claude Usage Tracker](https://github.com/hamed-elfayome/Claude-Usage-Tracker). This implementation is independently written; it does not incorporate that app's code or artwork. Codex assisted with implementation and verification.
-
-## Limits and contributing
-
-- Plan names are displayed as reported. An internal identifier such as `prolite` is not converted into an assumed retail plan name.
-- The upstream protocol and account limits can change. Missing fields remain unknown.
-- No automatic app updater, threshold notifications, account switching, or persistent history in v0.2.1.
-- Launch-at-login requires a permanent app location and may require approval in macOS settings.
-
-Feedback is welcome, especially on different account window shapes, accessibility, and macOS compatibility. See [CONTRIBUTING](CONTRIBUTING.md), [SECURITY](SECURITY.md), and [verification](docs/VERIFICATION.md). Never include tokens or personal account responses in an issue.
-
-MIT licensed. Independent community project; not affiliated with or endorsed by OpenAI or Anthropic. Product names belong to their respective owners.
+MIT licensed. Independent project, not affiliated with OpenAI, Anthropic, or Google.

@@ -13,6 +13,18 @@ if [[ "${1:-}" == "--test" ]]; then
   swiftc "${flags[@]}" -I .build/direct Tests/UsageVerifier/main.swift \
     .build/direct/UsageCore.o -o .build/direct/UsageVerifier
   .build/direct/UsageVerifier
+  for verifier in ProviderVerifier ClaudeVerifier; do
+    if [[ -f "Tests/$verifier/main.swift" ]]; then
+      swiftc "${flags[@]}" -I .build/direct "Tests/$verifier/main.swift" .build/direct/UsageCore.o -o ".build/direct/$verifier"
+      ".build/direct/$verifier"
+    fi
+  done
+  swiftc "${flags[@]}" Sources/ChatGPTUsage/UsageBridge.swift Tests/BridgeVerifier/main.swift -o .build/direct/BridgeVerifier
+  .build/direct/BridgeVerifier
+  if [[ -d browser-extension/tests ]]; then
+    command -v node >/dev/null || { echo "Node.js is required for browser extension tests." >&2; exit 1; }
+    node --test browser-extension/tests/*.test.*
+  fi
   swiftc "${flags[@]}" -D LAYOUT_TEST -parse-as-library -I .build/direct \
     Sources/ChatGPTUsage/*.swift Tests/PopupVerifier/PopupVerifier.swift \
     .build/direct/UsageCore.o -o .build/direct/PopupVerifier
