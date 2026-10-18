@@ -50,8 +50,8 @@ open "dist/AI Usage.app"
 1. Sign in to the installed Codex app or CLI with ChatGPT. The app detects current and older desktop bundle layouts.
 2. For browser quotas, open Chrome → `chrome://extensions`, enable developer mode, then **Load unpacked** → the `browser-extension` folder. Review its [permissions and code](browser-extension/README.md) first.
 3. In AI Usage settings, **Copy pairing key**. Paste it into the extension popup and pair.
-4. Open [Claude usage](https://claude.ai/settings/usage) and [Gemini usage](https://gemini.google.com/usage), using the intended account. Keep a signed-in tab for each service open.
-5. The extension refreshes every five minutes while Chrome and the pages are open. Its Refresh button refreshes browser sources. The app's Refresh button refreshes local CLI sources.
+4. Open [Claude usage](https://claude.ai/settings/usage) and [Gemini usage](https://gemini.google.com/usage), using the intended account. Once signed in, you can close those tabs.
+5. The extension refreshes in the background every five minutes while Chrome is running, even with both service tabs closed. Sleep or browser suspension can delay checks. Its Refresh button refreshes browser sources. The app's Refresh button refreshes local CLI sources.
 
 The extension is bundled inside the app's Resources folder; **Reveal extension** opens it in Finder. Do not delete or move that folder after loading it. It is not published in the Chrome Web Store yet.
 

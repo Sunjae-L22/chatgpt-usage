@@ -55,10 +55,20 @@ No personal account payloads, credentials, or real-account screenshots are inclu
 - Version 0.3.0, build 7 was bundled, signature-verified and installed after backing up the previous app. The installed executable matches the built bundle. The running native detail window shows all three real providers with the new card backgrounds, remaining quotas and reset countdowns.
 - Public preview images contain DEMO data. No live account screenshots are committed.
 
+## Background browser refresh — 2026-10-18
+
+- Reproduced the reported failure: both service tabs were closed and the old extension reported `waiting_for_tab`. Its five-minute alarm had no tab from which to read usage.
+- Extension 0.3.1 requests the same fixed quota endpoints from its service worker using the existing Chrome session. Closing, freezing, or discarding service tabs no longer prevents the direct path. No manifest permissions were added.
+- `make test` passes **168 checks**: 82 core/protocol/bridge checks, 39 browser checks, and 47 popup/menu checks. [Output](verification/background-refresh-tests.txt). New cases cover no-tab alarm delivery, startup and alarm repair, bounded requests, disconnect/re-pair, duplicate work, account-selection races, and correlated tab fallback.
+- App version 0.3.0 build 8 and the bundled extension pass strict ad-hoc signature verification. The installed binary matches the built bundle; build 7 was backed up locally. Existing extension pairing was retained.
+- A native detail-window check confirmed that both browser providers received fresh quotas and reset countdowns without opening either service tab. The popup's status view does not trigger a quota refresh. A subsequent five-minute alarm updated both providers again without manual refresh or open service tabs; the worker returned to inactive afterward.
+
+- A six-minute resource sample including refresh measured 0.133% average native CPU (one-core scale), 93.27–93.67 MiB native RSS, and a brief 207.41 MiB app-plus-Codex-child RSS peak. [Method, results, and limits](verification/background-refresh-resources.md). Chrome shared-process memory is not included.
+
 ## Remaining release gates
 
 - Test clean installation on another Mac/account.
 - Decide browser-extension store distribution and Apple signing/notarization before recommending a frictionless public install.
 - Multiple Claude organizations currently produce an explicit unsupported-selection message.
-- Browser collection requires Chrome and a signed-in service tab. Private web endpoint changes can require adapter updates.
+- Browser collection requires Chrome running and a valid browser sign-in. Service tabs may close with extension 0.3.1; browser policies can still require an open tab for fallback. Private web endpoint changes can require adapter updates.
 - Windows remains future work.

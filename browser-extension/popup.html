@@ -11,8 +11,9 @@
       <article><div class="provider"><i class="gemini"></i><h2>Gemini</h2><button class="link" id="open-gemini">Open usage ↗</button></div><p id="gemini-status" class="status">Waiting for connection</p></article>
     </section>
     <div class="actions"><button id="refresh">Refresh both</button><button id="disconnect" class="quiet">Disconnect</button></div>
-    <p class="footnote">Keep a signed-in tab open for each service. Quotas refresh every 5 minutes. Only quota summaries go to the app on this Mac.</p>
-    <p class="footnote">With several tabs open, the active or most recently accessed tab is used.</p>
+    <p id="schedule" class="footnote" role="status"></p>
+    <p class="footnote">Keep Chrome running. Quotas refresh every 5 minutes, even after closing the service tabs. Only quota summaries go to the app on this Mac.</p>
+    <p class="footnote">Gemini remembers the numeric account index from your active or most recently accessed service tab. Without a selection, it uses your default Google account.</p>
   </main>
   <script src="popup.js"></script>
 </body>

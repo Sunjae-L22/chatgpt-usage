@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.3.0 beta — browser refresh fix (extension 0.3.1)
+
+- Refresh Claude and Gemini quotas from the extension background worker every five minutes, even after their service tabs close.
+- Keep existing browser sign-in and permissions; no cookie extraction or credential copying.
+- Restore the alarm on worker startup and refresh after browser startup or extension updates.
+- Show the next automatic check in the extension popup; keep a bounded signed-in-tab fallback for browser policy differences.
+
 ## 0.3.0 beta — compact menu update
 
 - Add provider-colored card backgrounds at 12% tint, with light/dark palettes.

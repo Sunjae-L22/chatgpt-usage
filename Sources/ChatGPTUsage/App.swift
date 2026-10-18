@@ -301,7 +301,7 @@ private struct ConnectionSettings: View {
         VStack(alignment: .leading, spacing: 10) {
             Text(store.t("Connections", "서비스 연결")).font(.headline)
             Text(store.t("Codex reads your existing local login. Claude can use Claude Code. Browser quotas use the AI Usage extension.", "Codex는 기존 로그인을 사용해요. Claude Code 연결도 지원하며, 웹 사용량은 AI Usage 확장으로 연결해요.")).font(.system(size: 11)).foregroundStyle(.secondary)
-            Text(store.t("1. Load the included browser-extension folder in Chrome.\n2. Copy the pairing key below into the extension.\n3. Keep your signed-in usage pages open.", "1. Chrome에서 동봉된 browser-extension 폴더를 불러오세요.\n2. 아래 연결 키를 복사해 확장에 붙여 넣으세요.\n3. 로그인된 사용량 페이지를 열어 두세요.")).font(.system(size: 11)).fixedSize(horizontal: false, vertical: true)
+            Text(store.t("1. Load the included browser-extension folder in Chrome.\n2. Copy the pairing key below into the extension.\n3. Sign in once to each service. Keep Chrome running; service tabs may close.", "1. Chrome에서 동봉된 browser-extension 폴더를 불러오세요.\n2. 아래 연결 키를 복사해 확장에 붙여 넣으세요.\n3. 각 서비스에 로그인하고 Chrome을 켜 두세요. 서비스 탭은 닫아도 돼요.")).font(.system(size: 11)).fixedSize(horizontal: false, vertical: true)
             HStack {
                 Button(copied ? store.t("Copied", "복사됨") : store.t("Copy pairing key", "연결 키 복사")) { NSPasteboard.general.clearContents(); NSPasteboard.general.setString(bridge.pairingToken, forType: .string); copied = true }.disabled(store.demo)
                 Button(store.t("Reveal extension", "확장 폴더 보기")) {

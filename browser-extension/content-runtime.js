@@ -14,23 +14,22 @@
   }
   globalThis.AIUsageContent = { getText, start(provider, fetchUsage) {
     let running = false;
-    async function read() {
-      if (running) return;
+    async function read(requestId) {
+      if (running) return { ok: false, status: "busy" };
       running = true;
       let payload;
       try { payload = await fetchUsage(); }
       catch (error) { payload = { provider, error: failureCodes.has(error?.code) ? error.code : "network" }; }
-      try { await chrome.runtime.sendMessage({ type: "usage", payload }); }
-      catch { /* Extension may have been reloaded; no page data is logged. */ }
+      try { return await chrome.runtime.sendMessage({ type: "usage", payload, requestId }); }
+      catch { return { ok: false }; /* Extension may have been reloaded. */ }
       finally { running = false; }
     }
     chrome.runtime.onMessage.addListener((message, sender, respond) => {
-      if (sender.id !== chrome.runtime.id || message?.type !== "refresh" || message.provider !== provider) return;
-      read().then(() => respond({ ok: true }));
+      if (sender.id !== chrome.runtime.id || message?.type !== "refresh" || message.provider !== provider ||
+          typeof message.requestId !== "string" || !/^[A-Za-z0-9-]{16,80}$/.test(message.requestId)) return;
+      read(message.requestId).then(respond);
       return true;
     });
-    chrome.runtime.sendMessage({ type: "provider-ready", provider }).then(result => {
-      if (result?.read) return read();
-    }).catch(() => {});
+    chrome.runtime.sendMessage({ type: "provider-ready", provider }).catch(() => {});
   } };
 })();

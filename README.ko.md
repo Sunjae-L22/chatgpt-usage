@@ -39,8 +39,8 @@ open "dist/AI Usage.app"
 1. Codex에 ChatGPT 계정으로 로그인한다.
 2. Chrome의 `chrome://extensions`에서 개발자 모드를 켜고 `압축해제된 확장 프로그램을 로드합니다`로 `browser-extension` 폴더를 선택한다.
 3. 앱 설정의 **연결 키 복사** → 확장에 붙여 넣고 연결한다.
-4. [Claude 사용량](https://claude.ai/settings/usage)과 [Gemini 사용량](https://gemini.google.com/usage)을 원하는 계정으로 열어 둔다.
-5. Chrome과 해당 탭이 열려 있으면 확장이 5분마다 조회한다. 웹 한도는 확장에서, CLI 한도는 앱에서 새로고침한다.
+4. [Claude 사용량](https://claude.ai/settings/usage)과 [Gemini 사용량](https://gemini.google.com/usage)을 열어 원하는 계정으로 로그인한다. 로그인 후 해당 탭은 닫아도 된다.
+5. Chrome이 실행 중이면 서비스 탭을 닫아도 확장이 5분마다 백그라운드에서 조회한다. 절전 중에는 조회가 지연될 수 있다. 웹 한도는 확장에서, CLI 한도는 앱에서 새로고침한다.
 
 앱 설정의 **확장 폴더 보기**로 동봉된 확장을 찾을 수 있다. 불러온 확장 폴더는 계속 같은 위치에 두어야 한다. Chrome 웹 스토어 배포는 아직 하지 않았다.
 

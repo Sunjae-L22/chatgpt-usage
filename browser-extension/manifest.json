@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
   "name": "AI Usage — Browser Bridge",
-  "description": "Send Claude and Gemini quota summaries from your signed-in tabs to AI Usage on this Mac.",
-  "version": "0.3.0",
+  "description": "Refresh Claude and Gemini quotas using your browser sign-in, and send summaries to AI Usage on this Mac.",
+  "version": "0.3.1",
   "permissions": ["storage", "alarms"],
   "host_permissions": ["https://gemini.google.com/*", "https://claude.ai/*", "http://127.0.0.1:49627/*"],
   "background": { "service_worker": "background.js" },

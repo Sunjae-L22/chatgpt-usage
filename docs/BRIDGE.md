@@ -10,12 +10,12 @@ Gemini here means the Gemini web/app account quota shown on its usage page. Gemi
 2. Click **Reveal extension** to locate the bundled `browser-extension` folder.
 3. Open `chrome://extensions`, enable **Developer mode**, choose **Load unpacked**, and select that folder.
 4. In AI Usage, click **Copy pairing key**. Open the extension popup, paste the key, and save it.
-5. Open [Claude usage](https://claude.ai/settings/usage) and [Gemini usage](https://gemini.google.com/usage), and sign in with the accounts you want to monitor. If these tabs were open before loading the extension, reload them once.
-6. Use **Refresh** in the extension. Keep a signed-in tab for each browser provider open for automatic updates.
+5. Open [Claude usage](https://claude.ai/settings/usage) and [Gemini usage](https://gemini.google.com/usage), and sign in with the accounts you want to monitor. If background requests are blocked by browser policy, reload a signed-in service tab once to enable content-script fallback.
+6. Use **Refresh both** in the extension. Once signed in, service tabs may close; keep Chrome running for automatic updates.
 
-The local app refresh button refreshes local clients. The extension has its own manual refresh and five-minute alarm. Browser suspension, a closed tab, or a signed-out session can delay new readings; the app marks readings stale after ten minutes or a reported error.
+The local app refresh button refreshes local clients. The extension has its own manual refresh and five-minute alarm. Its worker requests fixed quota endpoints directly using the existing browser session, so closing or suspending a service tab no longer stops polling. Device sleep, Chrome being closed, or a signed-out session can delay new readings; the app marks readings stale after ten minutes or a reported error.
 
-The extension selects one tab per service: an active tab first, then the most recently accessed tab. Gemini preserves an explicit numeric Google account index in that tab's URL. Claude accounts with multiple organizations are not automatically guessed: the extension reports that organization selection is not supported yet. A supported Claude Code installation can still provide Claude readings without that browser connection.
+At each refresh with service tabs open, the extension selects an active tab first, then the most recently accessed tab. Switching between already-open tabs is reflected on the next refresh. Gemini remembers only the numeric Google account index from that tab's URL for later background requests; without a prior selection it uses the default account. An open signed-in tab can act as a fallback if browser policies prevent a background request. Fallback has a deadline and does not activate or reload your tabs. Claude accounts with multiple organizations are not automatically guessed: the extension reports that organization selection is not supported yet. A supported Claude Code installation can still provide Claude readings without that browser connection.
 
 ## What the connection carries
 
