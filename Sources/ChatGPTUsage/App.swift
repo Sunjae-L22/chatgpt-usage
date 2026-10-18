@@ -136,42 +136,67 @@ struct ProviderState {
 
 extension ProviderID {
     var accent: Color {
-        switch self { case .codex: Color(red: 0.13, green: 0.59, blue: 0.49); case .claude: Color(red: 0.76, green: 0.43, blue: 0.29); case .gemini: Color(red: 0.30, green: 0.52, blue: 0.91) }
+        switch self {
+        case .codex: UsagePalette.adaptive(light: 0x187B69, dark: 0x55BFA8)
+        case .claude: UsagePalette.adaptive(light: 0xA65734, dark: 0xD9936E)
+        case .gemini: UsagePalette.adaptive(light: 0x356CC8, dark: 0x78A1EF)
+        }
     }
     var symbol: String { switch self { case .codex: "terminal"; case .claude: "asterisk"; case .gemini: "sparkle" } }
     var usageURL: String { switch self { case .codex: "https://chatgpt.com/codex/settings/usage"; case .claude: "https://claude.ai/settings/usage"; case .gemini: "https://gemini.google.com/usage" } }
+}
+
+private enum UsagePalette {
+    static let cardBase = adaptive(light: 0xFFFFFF, dark: 0x26272A)
+    static let secondary = adaptive(light: 0x60636B, dark: 0xB0B4BD)
+    static func adaptive(light: UInt32, dark: UInt32) -> Color {
+        Color(nsColor: NSColor(name: nil) { appearance in
+            let value = appearance.bestMatch(from: [.darkAqua, .aqua]) == .darkAqua ? dark : light
+            return NSColor(srgbRed: Double((value >> 16) & 255) / 255,
+                           green: Double((value >> 8) & 255) / 255,
+                           blue: Double(value & 255) / 255, alpha: 1)
+        })
+    }
 }
 
 struct UsagePanel: View {
     @ObservedObject var store: UsageStore
     var body: some View {
         TimelineView(.periodic(from: .now, by: 30)) { context in
-            VStack(alignment: .leading, spacing: 12) {
+            VStack(alignment: .leading, spacing: 10) {
                 HStack(alignment: .center) {
-                    VStack(alignment: .leading, spacing: 3) {
-                        Text("AI Usage").font(.system(size: 24, weight: .semibold, design: .rounded))
-                        Text(store.t("A little more room to build.", "만드는 흐름이 끊기지 않도록.")).font(.system(size: 12)).foregroundStyle(.secondary)
-                    }
+                    Text("AI Usage").font(.system(size: 20, weight: .semibold))
                     Spacer()
                     if store.demo { Text("DEMO").font(.system(size: 10, weight: .bold)).foregroundStyle(.orange).padding(6).background(.orange.opacity(0.1), in: Capsule()) }
                     Button { store.showSettings.toggle() } label: { Image(systemName: "slider.horizontal.3").font(.system(size: 16)) }.buttonStyle(.plain).help(store.t("Connections & settings", "연결 및 설정"))
                 }
                 HStack {
-                    Text(store.t("QUOTA REMAINING", "남은 사용 한도")).font(.system(size: 10, weight: .semibold)).tracking(1.3)
+                    Text(store.t("Quota remaining", "남은 사용 한도")).font(.system(size: 11, weight: .medium))
                     Spacer()
-                    Text(store.t("│ Time left", "│ 남은 시간")).font(.system(size: 10))
-                }.foregroundStyle(.secondary)
+                    Text(store.t("Updates every 5 min", "5분마다 업데이트")).font(.system(size: 11))
+                }.foregroundStyle(UsagePalette.secondary)
                 VStack(spacing: 10) {
                     ForEach(ProviderID.allCases) { provider in ProviderCard(store: store, provider: provider, now: context.date) }
                 }
+                HStack(spacing: 14) {
+                    HStack(spacing: 5) {
+                        Capsule().fill(UsagePalette.secondary).frame(width: 14, height: 5).accessibilityHidden(true)
+                        Text(store.t("Quota left", "남은 한도"))
+                    }
+                    HStack(spacing: 5) {
+                        Capsule().fill(UsagePalette.secondary).frame(width: 2, height: 11).accessibilityHidden(true)
+                        Text(store.t("Time-left marker", "남은 시간 기준선"))
+                    }
+                }.font(.system(size: 11)).foregroundStyle(UsagePalette.secondary).frame(maxWidth: .infinity).padding(.top, 2)
                 if store.showSettings { ConnectionSettings(store: store, bridge: store.bridge) }
+                Divider()
                 HStack(spacing: 8) {
-                    Text(store.t("Unofficial · On your Mac · Every 5 min", "비공식 앱 · 내 Mac에서 · 5분마다 조회")).font(.system(size: 10)).foregroundStyle(.secondary)
+                    Text(store.t("Unofficial · On your Mac", "비공식 앱 · 내 Mac에서")).font(.system(size: 11)).foregroundStyle(UsagePalette.secondary)
                     Spacer()
                     Button { store.refresh() } label: { Image(systemName: "arrow.clockwise") }.buttonStyle(.plain).disabled(store.isLoading || store.demo).help(store.t("Refresh local apps; use the extension to refresh browser quotas", "앱 한도 새로고침 · 웹 한도는 확장에서 새로고침"))
-                    Button(store.t("Quit", "종료")) { NSApp.terminate(nil) }.buttonStyle(.plain).font(.system(size: 11)).foregroundStyle(.secondary)
+                    Button(store.t("Quit", "종료")) { NSApp.terminate(nil) }.buttonStyle(.plain).font(.system(size: 11)).foregroundStyle(UsagePalette.secondary)
                 }
-            }.padding(22).frame(width: 460).background(Color(nsColor: .windowBackgroundColor))
+            }.padding(20).frame(width: 460).background(Color(nsColor: .windowBackgroundColor))
         }.environment(\.locale, Locale(identifier: store.language))
     }
 }
@@ -185,34 +210,38 @@ private struct ProviderCard: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             HStack(spacing: 9) {
-                Image(systemName: provider.symbol).font(.system(size: 16, weight: .semibold)).foregroundStyle(provider.accent).frame(width: 24, height: 24)
+                Image(systemName: provider.symbol).font(.system(size: 16, weight: .semibold)).foregroundStyle(provider.accent).frame(width: 20, height: 20)
                 Text(provider.title).font(.system(size: 16, weight: .semibold))
-                if let plan = state.snapshot?.plan { Text(plan).font(.system(size: 10)).foregroundStyle(.secondary).lineLimit(1) }
+                if let plan = state.snapshot?.plan { Text(plan).font(.system(size: 11)).foregroundStyle(UsagePalette.secondary).lineLimit(1) }
                 Spacer(minLength: 4)
                 if state.loading { ProgressView().controlSize(.mini) }
                 if let snapshot = state.snapshot {
-                    Circle().fill(state.stale(at: now) ? Color.orange : provider.accent).frame(width: 4, height: 4)
-                    Text(snapshot.updatedAt, style: .time).font(.system(size: 10)).foregroundStyle(.secondary)
-                } else { Text(store.t("Not connected", "연결 전")).font(.system(size: 10)).foregroundStyle(.secondary) }
+                    if state.stale(at: now) { Image(systemName: "exclamationmark.circle").font(.system(size: 10)).foregroundStyle(.orange) }
+                    else { Circle().fill(provider.accent).frame(width: 4, height: 4) }
+                    Text(snapshot.updatedAt, style: .time).font(.system(size: 11)).foregroundStyle(UsagePalette.secondary)
+                } else { Text(store.t("Not connected", "연결 전")).font(.system(size: 10)).foregroundStyle(UsagePalette.secondary) }
             }
             if let snapshot = state.snapshot, !snapshot.windows.isEmpty {
                 ForEach(Array((expanded ? snapshot.windows : Array(snapshot.windows.prefix(2))))) { window in
                     windowRow(window)
                 }
                 if snapshot.windows.count > 2 {
-                    Button(store.t(expanded ? "Show less" : "\(snapshot.windows.count - 2) more limits", expanded ? "접기" : "한도 \(snapshot.windows.count - 2)개 더 보기")) { expanded.toggle() }.buttonStyle(.plain).font(.caption).foregroundStyle(.secondary)
+                    Button(store.t(expanded ? "Show less" : "\(snapshot.windows.count - 2) more limits", expanded ? "접기" : "한도 \(snapshot.windows.count - 2)개 더 보기")) { expanded.toggle() }.buttonStyle(.plain).font(.caption).foregroundStyle(UsagePalette.secondary)
                 }
-                if state.stale(at: now) { Text(store.t("Last known values · refresh needed", "이전 값 · 새로고침 필요")).font(.system(size: 10)).foregroundStyle(.orange) }
+                if state.stale(at: now) { Label(store.t("Last known values · refresh needed", "이전 값 · 새로고침 필요"), systemImage: "exclamationmark.circle").font(.system(size: 11)).foregroundStyle(.orange) }
             } else {
-                Text(store.t(provider == .codex ? "Your ChatGPT plan, through Codex." : "Connect once to see your plan limits here.", provider == .codex ? "Codex를 통해 ChatGPT 요금제 한도를 확인해요." : "한 번 연결하면 요금제 한도를 여기서 확인할 수 있어요.")).font(.system(size: 12)).foregroundStyle(.secondary)
+                Text(store.t(provider == .codex ? "Your ChatGPT plan, through Codex." : "Connect once to see your plan limits here.", provider == .codex ? "Codex를 통해 ChatGPT 요금제 한도를 확인해요." : "한 번 연결하면 요금제 한도를 여기서 확인할 수 있어요.")).font(.system(size: 12)).foregroundStyle(UsagePalette.secondary)
                 HStack {
                     Button(store.t("Connect", "연결하기")) { store.showSettings = true }.controlSize(.small)
                     Button(store.t("Open usage page ↗", "사용량 페이지 ↗")) { openURL(provider.usageURL) }.buttonStyle(.plain).font(.system(size: 11)).foregroundStyle(provider.accent)
                 }
             }
-            if let error = state.error { Text(error).font(.system(size: 10)).foregroundStyle(.orange).fixedSize(horizontal: false, vertical: true) }
-        }.padding(12).background(Color.primary.opacity(0.035), in: RoundedRectangle(cornerRadius: 14))
-            .overlay(RoundedRectangle(cornerRadius: 14).stroke(Color.primary.opacity(0.05), lineWidth: 1))
+            if let error = state.error { Text(error).font(.system(size: 11)).foregroundStyle(.orange).fixedSize(horizontal: false, vertical: true) }
+        }.padding(.horizontal, 14).padding(.vertical, 12)
+            .background {
+                RoundedRectangle(cornerRadius: 14).fill(UsagePalette.cardBase)
+                    .overlay { RoundedRectangle(cornerRadius: 14).fill(provider.accent.opacity(0.12)) }
+            }
     }
     private func name(_ window: ProviderWindow) -> String {
         let duration: String
@@ -235,26 +264,31 @@ private struct ProviderCard: View {
         let pace = state.pace(for: window, at: now)
         VStack(alignment: .leading, spacing: 3) {
             HStack(alignment: .firstTextBaseline) {
-                Text(name(window)).font(.system(size: 11, weight: .medium)).foregroundStyle(.secondary).lineLimit(1)
+                Text(name(window)).font(.system(size: 11, weight: .medium)).foregroundStyle(UsagePalette.secondary).lineLimit(1)
                 Spacer()
-                if let remaining = limit.remaining { Text("\(percentage(remaining))%").font(.system(size: 18, weight: .semibold, design: .rounded)).monospacedDigit().foregroundStyle(old ? Color.secondary : Color.primary) }
-                else { Text("—").foregroundStyle(.secondary) }
+                if let remaining = limit.remaining {
+                    (Text(percentage(remaining)).font(.system(size: 22, weight: .semibold))
+                     + Text("%").font(.system(size: 13, weight: .medium)).foregroundColor(UsagePalette.secondary))
+                        .monospacedDigit().foregroundStyle(old ? UsagePalette.secondary : Color.primary)
+                }
+                else { Text("—").foregroundStyle(UsagePalette.secondary) }
             }
             GeometryReader { geometry in
                 ZStack(alignment: .leading) {
                     Capsule().fill(Color.primary.opacity(0.08)).frame(height: 6)
                     if let remaining = limit.remaining { Capsule().fill(old ? Color.gray : provider.accent).frame(width: geometry.size.width * remaining / 100, height: 6) }
-                    if let pace { Capsule().fill(Color.primary).frame(width: 2, height: 12).overlay(Capsule().stroke(Color(nsColor: .windowBackgroundColor), lineWidth: 0.5)).offset(x: max(0, min(geometry.size.width - 2, geometry.size.width * pace.remainingTimePercent / 100 - 1))) }
+                    if let pace { Capsule().fill(Color.primary.opacity(0.9)).frame(width: 2, height: 12).overlay(Capsule().stroke(UsagePalette.cardBase, lineWidth: 0.5)).offset(x: max(0, min(geometry.size.width - 2, geometry.size.width * pace.remainingTimePercent / 100 - 1))) }
                 }.frame(height: 12)
             }.frame(height: 12).accessibilityLabel(store.t("Remaining quota and time marker", "남은 한도와 시간 기준선"))
             HStack(spacing: 3) {
                 if let reset = limit.resetDate {
                     if expired { Text(store.t("Reset passed · refresh", "초기화 시각 지남 · 새로고침")) }
-                    else { Text(store.t("Resets in", "초기화까지")); Text(reset, style: .relative) }
+                    else if store.language == "ko" { Text(reset, style: .relative); Text("후 초기화") }
+                    else { Text("Resets in"); Text(reset, style: .relative) }
                 } else { Text(store.t("Reset not reported", "초기화 시각 미제공")) }
                 Spacer(minLength: 4)
                 if let pace { Text(store.t("Time left \(Int(pace.remainingTimePercent.rounded()))%", "시간 \(Int(pace.remainingTimePercent.rounded()))% 남음")) }
-            }.font(.system(size: 10)).foregroundStyle(.secondary).monospacedDigit()
+            }.font(.system(size: 11)).foregroundStyle(UsagePalette.secondary).monospacedDigit()
         }.help(store.t("The vertical line marks time remaining. When the colored bar extends beyond it, quota is being used more slowly than an even pace. This is a reference, not a daily limit.", "세로선은 남은 시간 비율이에요. 색 막대가 선보다 길면 균등 페이스보다 여유 있게 쓰고 있어요. 실제 일일 한도가 아닌 참고 기준입니다."))
     }
 }

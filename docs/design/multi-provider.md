@@ -28,3 +28,9 @@ The selected menu-bar design uses a fixed 24 × 18pt image with three 5 × 14pt 
 Each provider keeps the existing headline selection: prefer its weekly window, otherwise its first reported window. The tooltip and accessibility summary name that window. Values from different providers are never combined. Stale, failed, expired or missing readings use neutral broken marks; genuine 0% remains a solid empty track. Refreshing an otherwise fresh reading does not cause flicker. No new animation or rotating labels.
 
 Windows phase: keep normalization/parsing separate from macOS UI and authentication so a later Windows host can reuse the data contract. Windows is not part of this release.
+
+## Selected card polish
+
+The user selected the soft provider-tinted cards at 12% tint. Blend that fill over an opaque neutral card (#FFFFFF light / #26272A dark), leaving text fully opaque. Provider light/dark accents: Codex #187B69 / #55BFA8, Claude #A65734 / #D9936E, Gemini #356CC8 / #78A1EF. Keep native system canvas and semantic text colors.
+
+Retain the 460pt measured panel and stacked quota windows. Use SF 20pt for the app title, 16pt for providers, 22pt for percentage numerals, 13pt for the percent sign, and 11pt for reset/status details. Remove the introductory tagline; keep per-provider update times. Explain quota fill and time-left marker together below the cards, once. Warning text and symbols distinguish stale data even on Claude's copper tint. Keep the menu icon, acquisition, percentages, timing calculations, and settings behavior unchanged.

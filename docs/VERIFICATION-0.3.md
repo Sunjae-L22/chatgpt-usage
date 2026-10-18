@@ -47,6 +47,14 @@ No personal account payloads, credentials, or real-account screenshots are inclu
 - All three providers repopulated in the running native detail window after restart; quota values and reset countdowns were visible. Existing extension pairing was retained.
 - The user confirmed that all three mini bars appear in the actual menu bar and clicking opens the detail panel correctly. This complements the native detail-window and automated layout checks above; the UI tool cannot directly select the status-item icon.
 
+## Tinted card polish — 2026-10-18
+
+- The selected design uses a 12% provider-color overlay on an opaque neutral card, with separate light/dark palettes. Only presentation changed: quota collection, precision, reset timestamps, pacing math, and the three-bar menu indicator are unchanged.
+- The existing **145-check suite** passes. No new tests were added for these reversible visual changes. [Output](verification/tinted-cards-tests.txt).
+- Korean/English dark/light sample renders were reviewed at 920×1420 pixels (460×710pt for six sample windows). Percentages, resets, plans and legend fit without clipping. The time marker retains a thin contrast edge; secondary text uses explicit theme-aware colors.
+- Version 0.3.0, build 7 was bundled, signature-verified and installed after backing up the previous app. The installed executable matches the built bundle. The running native detail window shows all three real providers with the new card backgrounds, remaining quotas and reset countdowns.
+- Public preview images contain DEMO data. No live account screenshots are committed.
+
 ## Remaining release gates
 
 - Test clean installation on another Mac/account.

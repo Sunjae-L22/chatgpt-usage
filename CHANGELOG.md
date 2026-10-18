@@ -2,6 +2,8 @@
 
 ## 0.3.0 beta — compact menu update
 
+- Add provider-colored card backgrounds at 12% tint, with light/dark palettes.
+- Refine the title, percentage typography and reset labels; add a shared legend for quota fill and the time-left marker.
 - Replace the three text percentages with a fixed-size, three-bar menu icon in Codex / Claude / Gemini order.
 - Keep exact remaining quota, reset countdowns, and pace markers in the existing click-to-open panel.
 - Distinguish missing, stale, failed and expired readings from a real 0%; add window-aware English/Korean tooltip and accessibility text.

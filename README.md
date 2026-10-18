@@ -26,7 +26,7 @@ Ordinary ChatGPT chat caps, API spending, token counts, and Antigravity quotas a
 
 - A fixed-width menu icon with three mini bars, ordered Codex → Claude → Gemini. Height shows remaining quota; click for exact values and reset times. Hover names the represented window (weekly when available).
 - Broken neutral marks mean a refresh or connection is needed; a solid empty track means a measured 0%.
-- Three compact service cards; extra model windows expand on demand.
+- Three softly tinted service cards, with theme-aware 12% provider color; extra model windows expand on demand.
 - **Remaining** quota, actual reset countdown, and last update time for each service.
 - Colored bar = quota remaining. Vertical line = time remaining in that window.
 - If the bar extends beyond the line, you are spending more slowly than an even pace. This is a reference, **not an official daily allowance**.
