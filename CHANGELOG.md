@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.3.0 beta — browser refresh fix (extension 0.3.1)
+
+- Refresh Claude and Gemini quotas from the extension background worker every five minutes, even after their service tabs close.
+- Keep existing browser sign-in and permissions; no cookie extraction or credential copying.
+- Restore the alarm on worker startup and refresh after browser startup or extension updates.
+- Show the next automatic check in the extension popup; keep a bounded signed-in-tab fallback for browser policy differences.
+
+## 0.3.0 beta — compact menu update
+
+- Add provider-colored card backgrounds at 12% tint, with light/dark palettes.
+- Refine the title, percentage typography and reset labels; add a shared legend for quota fill and the time-left marker.
+- Replace the three text percentages with a fixed-size, three-bar menu icon in Codex / Claude / Gemini order.
+- Keep exact remaining quota, reset countdowns, and pace markers in the existing click-to-open panel.
+- Distinguish missing, stale, failed and expired readings from a real 0%; add window-aware English/Korean tooltip and accessibility text.
+
 ## 0.2.1 — 2026-09-30
 
 - Restore desktop Codex detection after its bundled CLI moved into `Resources/codex-cli`.

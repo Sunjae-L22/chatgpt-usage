@@ -1,0 +1,85 @@
+{
+  "id": "ai-usage-macos-three-providers-2026-10",
+  "title": "Codex·Claude·Gemini 사용량을 한눈에: Mac 메뉴 막대 앱을 세 서비스로 확장했다",
+  "category": "프로젝트/macOS 앱",
+  "tags": [
+    "macOS",
+    "SwiftUI",
+    "Codex",
+    "Claude",
+    "Gemini",
+    "Argon",
+    "사이드프로젝트",
+    "오픈소스"
+  ],
+  "reader_question": "Mac에서 Codex·Claude·Gemini의 남은 구독 한도와 초기화 시간을 어떻게 한 화면에서 정확히 비교할 수 있을까?",
+  "contribution": "Codex 단일 서비스 앱을 세 서비스 비교 화면으로 확장하고, 공통 시간 페이스 기준선과 서로 다른 한도·인증 경로를 다룬 후속 개발 기록이다.",
+  "intent": "new",
+  "target_url": null,
+  "related_posts": [
+    {
+      "url": "https://it-study-2002.tistory.com/entry/chatgpt-usage-codex-macos",
+      "relationship": "Codex 전용 초기 버전 개발 기록의 후속 글",
+      "verification": "project-history URL; fresh public fetch unavailable during drafting"
+    }
+  ],
+  "source_note": "source-note.md",
+  "sources": [
+    {
+      "kind": "public",
+      "url": "https://github.com/Sunjae-L22/chatgpt-usage/tree/feat/multi-provider-usage",
+      "supports": "0.3 개발 베타 코드, 지원 범위와 연결 방법"
+    },
+    {
+      "kind": "public",
+      "url": "https://developers.openai.com/codex/app-server/",
+      "supports": "Codex 로컬 app-server 연결 구조"
+    },
+    {
+      "kind": "public",
+      "url": "https://code.claude.com/docs/en/commands",
+      "supports": "Claude Code 사용량 명령의 역할"
+    },
+    {
+      "kind": "public",
+      "url": "https://github.com/anthropics/claude-agent-sdk-typescript/blob/main/CHANGELOG.md",
+      "supports": "Claude 구조화된 사용량 경로 조사"
+    },
+    {
+      "kind": "public",
+      "url": "https://support.google.com/gemini/answer/16275805?hl=en",
+      "supports": "Gemini 앱의 구독 사용 한도"
+    },
+    {
+      "kind": "public",
+      "url": "https://github.com/steipete/CodexBar/blob/main/docs/gemini.md",
+      "supports": "Gemini 앱·CLI·Antigravity 한도의 구분 및 공개 구현 참고"
+    },
+    {
+      "kind": "public",
+      "url": "https://github.com/steipete/CodexBar",
+      "supports": "기존 다중 서비스 사용량 앱 인정"
+    }
+  ],
+  "experiments": [],
+  "images": [
+    {
+      "path": "img/ai-usage-demo-ko.png",
+      "purpose": "세 서비스의 남은 한도, 초기화 시간, 공통 시간 기준선이 배치된 화면을 보여준다.",
+      "alt": "AI Usage 데모: Codex, Claude, Gemini의 사용량과 시간 기준선을 한 화면에서 비교한다.",
+      "caption": "화면 구성용 예시 데이터. 세 계정 실시간 연결의 증거가 아니다.",
+      "representative": true,
+      "data_kind": "synthetic-demo"
+    }
+  ],
+  "status": "ready_for_user_authoring",
+  "publication": {
+    "tistory": "not_published",
+    "sns": "draft_only"
+  },
+  "review": {
+    "technical": true,
+    "visual": true,
+    "notes": "현재 구현·공식 자료·116개 자동 검증 결과와 원고를 대조했다. 작성자의 Mac에서 세 서비스 실제 연결을 확인했고, Claude·Gemini 공식 사용량 화면과 앱의 한도·초기화 시각을 비교했다. 다른 계정·Mac 및 Apple 공증은 미확인/미완료로 구분했다. 전체 크기 데모 이미지와 렌더링된 글의 데스크톱·390×844·360×800 화면을 검수했다. 모바일 가로 넘침이나 잘림이 없고 DEMO·주요 수치가 읽히며 세부 이미지 문구는 확대할 수 있다."
+  }
+}

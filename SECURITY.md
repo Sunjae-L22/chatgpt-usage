@@ -1,11 +1,9 @@
-# Security and privacy
+# Security
 
-ChatGPT Usage delegates authentication and quota requests to the installed Codex executable. It does not directly open credential files, query Keychain, read browser cookies, or read conversation history. The subprocess receives only initialization and a rate-limit read request; it does not start model turns or redeem reset credits.
+AI Usage reads Codex, Claude, and Gemini quota through installed clients or its browser extension. It does not start model turns, extract upstream login tokens, or copy cookies into the native app. See [data handling](docs/PRIVACY.md) and the [local bridge protocol](docs/BRIDGE.md) for permissions, storage, and trust boundaries.
 
-The subprocess is closed after each request and has a 20-second response deadline. Errors shown in the UI use fixed messages rather than raw server content. App-server stderr is discarded. Quota snapshots remain in process memory; the app saves language and the optional executable path in UserDefaults.
+The app is not App-Sandboxed because it starts local CLI clients. Choose trusted installations. The browser extension can access the two declared service origins; review its source before loading it. Its pairing key allows writing quota summaries to the loopback listener, not access to your provider accounts. The key is local and should not be published.
 
-The chosen Codex binary runs with your user permissions. Select a trusted local installation. This app is not App-Sandboxed because it launches Codex. Codex itself can perform its normal authentication and service requests. Analytics are disabled for the app's subprocess.
+Report security concerns through GitHub's private vulnerability reporting if enabled. If unavailable, open a minimal issue asking for a private contact channel without exploit details or secrets. Never upload credential files, access/refresh tokens, browser sessions, pairing keys, conversation files, or personal account payloads.
 
-Report security concerns through GitHub's private vulnerability reporting if enabled. If unavailable, open a minimal issue asking for a private contact channel without posting exploit details or secrets. Never upload auth.json, access/refresh tokens, browser sessions, or personal account payloads.
-
-The first release is ad-hoc signed and not notarized. Release SHA-256 checksums detect corruption; they are not a substitute for Apple notarization or publisher identity verification.
+Builds are ad-hoc signed and not notarized. Release SHA-256 checksums detect corruption; they are not a substitute for publisher identity verification. Development source and a passing test run do not guarantee future compatibility with private provider endpoints.

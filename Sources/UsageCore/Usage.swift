@@ -5,6 +5,12 @@ public struct LimitWindow: Codable, Equatable, Sendable {
     public var windowDurationMins: Int?
     public var resetsAt: Double?
 
+    public init(usedPercent: Double?, windowDurationMins: Int?, resetsAt: Double?) {
+        self.usedPercent = usedPercent
+        self.windowDurationMins = windowDurationMins
+        self.resetsAt = resetsAt
+    }
+
     public var remaining: Double? {
         guard let usedPercent, usedPercent.isFinite else { return nil }
         return max(0, min(100, 100 - usedPercent))

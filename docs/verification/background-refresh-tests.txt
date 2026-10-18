@@ -1,0 +1,183 @@
+bash scripts/build.sh --test
+PASS: Weekly-only account has exactly one window
+PASS: Weekly can occupy primary
+PASS: Used 49 means remaining 51
+PASS: Two windows preserve actual durations
+PASS: Headline picks weekly by duration
+PASS: Multi-bucket response wins over legacy and sorts Codex first
+PASS: Does not invent a short window from another bucket
+PASS: Empty map falls back to legacy
+PASS: Missing values stay unknown
+PASS: Remaining display clamps out-of-range percentages
+PASS: Pacing uses actual window length and reset
+PASS: Daily reference divides remaining quota by remaining days
+PASS: Expired reset does not fabricate new quota
+PASS: Inconsistent future window does not produce pacing
+PASS: Half a window places time marker at 50 percent
+PASS: Remaining quota 51 versus time 50 means 1 point spare
+PASS: Three quarters elapsed leaves a 25 percent time marker
+PASS: Fast spending is shown as a negative quota balance
+PASS: Time marker begins at the full window boundary
+PASS: Missing time data has no pace marker
+PASS: Duplicate windows are not shown twice
+PASS: Invalid explicit binary does not silently use another account source
+PASS: Updated desktop bundle prefers the supported CLI launcher
+PASS: Packaged CLI executable is found without its launcher
+PASS: Older desktop bundle remains supported
+PASS: Explicit executable preference remains authoritative
+PASS: Protocol handshake, notifications, and split response work
+PASS: Server errors are sanitized
+PASS: Timeout terminates child process promptly
+PASS: Early subprocess exit is reported
+30 checks passed
+PASS: Preserves genuine fractional percentages
+PASS: Bridge uses Unix seconds
+PASS: Bridge cannot replace local Codex source
+PASS: Rejects future timestamps
+PASS: Rejects old snapshots
+PASS: Rejects invalid percent -1
+PASS: Rejects invalid percent 101
+PASS: Rejects invalid percent true
+PASS: Rejects invalid percent "25"
+PASS: Missing quota remains unknown
+PASS: Rejects duplicate IDs
+PASS: Codex normalization preserves quota
+12 provider checks passed
+PASS: Claude account metadata stays in its provider
+PASS: session, weekly and scoped weekly quotas are retained
+PASS: reported zero is a real measurement
+PASS: fractional percent precision is preserved
+PASS: fractional and ordinary ISO reset timestamps parse
+PASS: model title survives without invented reset time
+PASS: structured control envelope decodes
+PASS: unavailable live limits never become zero
+PASS: inapplicable subscription limits stay unavailable
+PASS: unmeasured windows stay unavailable
+PASS: boolean utilization is rejected
+PASS: invalid percentages are rejected
+PASS: typed server rows retain only understood windows and valid resets
+PASS: compatibility and typed rows do not duplicate the same quota
+PASS: passive handshake ignores notifications and requests only usage with transcript scans disabled
+PASS: unresponsive child has a bounded timeout and cleanup
+PASS: timeout cleanup reaps its own child process
+17 Claude checks passed
+PASS: Paired extension JSON quota is accepted
+PASS: Native loopback requests can omit Origin
+PASS: Usage requires a pairing token
+PASS: Wrong pairing token is rejected
+PASS: Health also requires pairing
+PASS: Authenticated health is accepted
+PASS: Extension preflight does not need authorization
+PASS: Duplicate Origin is rejected
+PASS: Web page origins cannot submit usage
+PASS: Extension origin syntax is exact
+PASS: Unknown routes are rejected
+PASS: Routes enforce their methods
+PASS: Chunked encoding is rejected
+PASS: Duplicate Content-Length is rejected
+PASS: Malformed JSON is rejected
+PASS: Payload must be a JSON object
+PASS: Partial JSON body waits for remaining bytes
+PASS: Extra bytes and pipelined requests are rejected
+PASS: Header limit is enforced before delimiter
+PASS: Body limit is enforced from Content-Length
+PASS: POST requires Content-Length
+PASS: POST requires application/json
+PASS: Token comparison checks full token
+23 bridge checks passed
+✔ Gemini fractions become real percentages and only verified scopes survive (1.899291ms)
+✔ Gemini accepts XSSI prefix and explicit zero without inventing missing usage (1.61225ms)
+✔ Gemini handles authentication, malformed schema, unknown pools and duplicates (0.978708ms)
+✔ Missing reset stays null, never a fabricated reset time (0.913292ms)
+✔ Gemini endpoint preserves only numeric account indices (1.03175ms)
+✔ Claude parser retains numeric precision and whitelists quota windows (0.853875ms)
+✔ Claude does not guess organizations or fill missing values with zero (1.055834ms)
+✔ Transport projection strips every non-quota field (0.520584ms)
+✔ Transport rejects stale, malformed, unknown and duplicate data (1.025709ms)
+✔ Manifest grants only provider hosts, local bridge, storage and alarms (0.449583ms)
+✔ Background Gemini request reads the fixed endpoint without any open tab (28.071584ms)
+✔ Gemini account selection cannot inject URLs or send email identifiers (2.590375ms)
+✔ Claude requests only its validated single organization and usage endpoint (1.414667ms)
+✔ Ambiguous or invalid Claude organizations never trigger a usage request (0.629833ms)
+✔ HTTP failures become safe provider error codes without response details (0.447083ms)
+✔ Login HTML and broken JSON remain authentication or schema failures (0.232917ms)
+✔ Response limit rejects advertised and actual oversized bodies in bytes (3.324375ms)
+✔ A valid response at the body-size boundary remains readable (1.761291ms)
+✔ Caller cancellation aborts an in-flight request without exposing its reason (0.347625ms)
+✔ An already-cancelled refresh sends no provider request (0.162208ms)
+✔ Unexpected fetch errors are sanitized and unsupported providers cannot fetch (0.203959ms)
+✔ Five-minute alarm reads both providers with zero tabs and posts sanitized summaries (21.318209ms)
+✔ Startup and install refresh automatically; status reads never trigger polling (5.030333ms)
+✔ Missing or incorrect alarm is repaired, correct alarm is not rescheduled (2.359583ms)
+✔ Concurrent manual refresh and alarm deduplicate each provider (2.007084ms)
+✔ Disconnect cancels reads and late responses cannot send or overwrite status (1.417167ms)
+✔ Rotating pairing code invalidates the old refresh and starts new reads (2.256917ms)
+✔ Unpaired alarms and content messages never fetch or post (0.913625ms)
+✔ Wrong senders cannot change settings or push unsolicited quota (1.246625ms)
+✔ Native authentication failure is reported without claiming delivery (1.250917ms)
+✔ Only correlated fallback replies are accepted and their raw extras are stripped (1.871583ms)
+✔ Frozen/discarded tabs cannot stall direct-read failure handling (2.225917ms)
+✔ Numeric Gemini account is retained with no tabs; returning to default clears it (2.972334ms)
+✔ Inactive and email-selected Gemini tabs cannot change saved numeric account (1.125583ms)
+✔ An account switch aborts an old read before a different account can be posted (2.423958ms)
+✔ Delayed unpaired storage read cannot erase a newly connected status (1.374917ms)
+✔ A delayed tab query cannot roll the selected Google account back (1.074ms)
+✔ Old fallback result is rejected after disconnect and re-pair (2.448541ms)
+✔ A fallback cannot publish from a tab that is no longer selected (1.096167ms)
+ℹ tests 39
+ℹ suites 0
+ℹ pass 39
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 136.434625
+PASS: Fresh zero usage means a full remaining quota bar
+PASS: A real zero remaining quota stays available rather than unknown
+PASS: Missing provider data is unavailable rather than a zero quota
+PASS: Missing percentage is unavailable
+PASS: Nonfinite percentage cannot become a colored bar
+PASS: Freshness expires after the ten-minute boundary
+PASS: A reset at the current instant needs a new reading
+PASS: A failed refresh marks even recent quota data as old
+PASS: Loading preserves an existing fresh quota
+PASS: A missing reset timestamp does not discard a known quota percentage
+PASS: The miniature bar uses the representative weekly window rather than the first short window
+PASS: English accessibility text preserves service, period, quota, and reset information
+PASS: Korean accessibility text preserves service, period, quota, and reset information
+PASS: Stale and expired accessibility text does not announce cached quota as current
+PASS: Accessibility text explicitly reports missing reset information
+PASS: Light menu images keep a fixed 24 by 18 point size and provider colors
+PASS: Rendered full, zero, and half quotas have proportionate colored fill (light, 1x)
+PASS: Rendered service positions remain Codex, Claude, Gemini regardless of input order (light, 1x)
+PASS: Unknown dashed marks are neutral and visibly different from real zero quotas (light, 1x)
+PASS: Rendered full, zero, and half quotas have proportionate colored fill (light, 2x)
+PASS: Rendered service positions remain Codex, Claude, Gemini regardless of input order (light, 2x)
+PASS: Unknown dashed marks are neutral and visibly different from real zero quotas (light, 2x)
+PASS: Dark menu images keep a fixed 24 by 18 point size and provider colors
+PASS: Rendered full, zero, and half quotas have proportionate colored fill (dark, 1x)
+PASS: Rendered service positions remain Codex, Claude, Gemini regardless of input order (dark, 1x)
+PASS: Unknown dashed marks are neutral and visibly different from real zero quotas (dark, 1x)
+PASS: Rendered full, zero, and half quotas have proportionate colored fill (dark, 2x)
+PASS: Rendered service positions remain Codex, Claude, Gemini regardless of input order (dark, 2x)
+PASS: Unknown dashed marks are neutral and visibly different from real zero quotas (dark, 2x)
+PASS: Fresh Claude web values take priority over CLI reads
+PASS: Stale web values allow the Claude CLI to refresh again
+PASS: A failed web refresh permits CLI recovery
+PASS: Fresh quota windows retain a pace marker
+PASS: Stale quota windows hide the pace marker
+PASS: Failed quota reads hide the pace marker
+PASS: Bridge schema validation rejects empty objects
+PASS: Bridge cannot overwrite Codex with an error
+PASS: Known browser status errors remain supported
+PASS: A zero-height host proposal cannot collapse the menu content
+PASS: Menu content has a usable size before its first layout
+PASS: Popover fits the measured weekly content within the current display
+PASS: Settings expand the popover without exceeding its height limit
+PASS: Closing settings restores the compact height
+PASS: Two windows with settings stay within a short screen viewport
+PASS: Overflowing content keeps its full height for scrolling
+PASS: The disconnected state remains visible
+PASS: The loading state remains visible
+47 popup layout checks passed
+Built .build/direct/ChatGPTUsage (arm64)

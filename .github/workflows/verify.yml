@@ -9,9 +9,12 @@ jobs:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
       - name: Build and verify
         run: make test
       - name: Build app bundle
         run: make bundle
       - name: Check bundle signature
-        run: codesign --verify --strict --verbose=2 "dist/ChatGPT Usage.app"
+        run: codesign --verify --strict --verbose=2 "dist/AI Usage.app"
