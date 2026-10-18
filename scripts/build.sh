@@ -26,7 +26,7 @@ if [[ "${1:-}" == "--test" ]]; then
     node --test browser-extension/tests/*.test.*
   fi
   swiftc "${flags[@]}" -D LAYOUT_TEST -parse-as-library -I .build/direct \
-    Sources/ChatGPTUsage/*.swift Tests/PopupVerifier/PopupVerifier.swift \
+    Sources/ChatGPTUsage/*.swift Tests/PopupVerifier/*.swift \
     .build/direct/UsageCore.o -o .build/direct/PopupVerifier
   .build/direct/PopupVerifier
 fi

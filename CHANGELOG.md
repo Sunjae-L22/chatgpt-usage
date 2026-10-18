@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.3.0 beta — compact menu update
+
+- Replace the three text percentages with a fixed-size, three-bar menu icon in Codex / Claude / Gemini order.
+- Keep exact remaining quota, reset countdowns, and pace markers in the existing click-to-open panel.
+- Distinguish missing, stale, failed and expired readings from a real 0%; add window-aware English/Korean tooltip and accessibility text.
+
 ## 0.2.1 — 2026-09-30
 
 - Restore desktop Codex detection after its bundled CLI moved into `Resources/codex-cli`.

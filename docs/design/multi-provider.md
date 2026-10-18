@@ -21,4 +21,10 @@ A 460pt menu panel presents three stacked service rows. Each row shares the same
 
 Review against brief: consistent rows are intentional comparison structure, not independent marketing cards. Color identifies provider only. Pace markers are the single distinctive visual. Avoid inaccurate combined quotas, fabricated unconnected values, hard-coded retail plan assumptions and unlabeled demo data. Native acquisition methods must match actual provider product scope.
 
+## Compact menu indicator
+
+The selected menu-bar design uses a fixed 24 × 18pt image with three 5 × 14pt vertical tracks, in Codex → Claude → Gemini order. Fill grows upward with remaining quota. Teal, copper and blue match the provider identities, with separate light/dark colors for small marks. This is a glanceable approximation; exact values and reset times remain in the existing click-to-open panel. The menu no longer grows with percentages or connection status.
+
+Each provider keeps the existing headline selection: prefer its weekly window, otherwise its first reported window. The tooltip and accessibility summary name that window. Values from different providers are never combined. Stale, failed, expired or missing readings use neutral broken marks; genuine 0% remains a solid empty track. Refreshing an otherwise fresh reading does not cause flicker. No new animation or rotating labels.
+
 Windows phase: keep normalization/parsing separate from macOS UI and authentication so a later Windows host can reuse the data contract. Windows is not part of this release.

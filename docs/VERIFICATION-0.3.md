@@ -38,6 +38,15 @@ Additional actual socket checks passed: loopback-only binding; authenticated hea
 
 No personal account payloads, credentials, or real-account screenshots are included in this repository. Demo images remain visibly labeled DEMO.
 
+## Compact menu update — 2026-10-18
+
+- `make test` passed **145 checks**: the previous 116 plus 29 menu-state, accessibility and raster-render checks. [Output](verification/mini-bars-tests.txt).
+- The 24×18pt icon keeps Codex / Claude / Gemini positions in both appearances at 1× and 2× scale. Tests distinguish fresh 0% from unknown/stale marks, check full/half fill proportions, preserve a fresh value during refresh, and reject expired or failed values as current.
+- The existing popup geometry checks still pass, including its first zero-height host proposal and short-display scrolling. Popup layout and click routing were not changed.
+- Version 0.3.0, build 6 was bundled, ad-hoc signature verified, and installed over the running local app. Installed executable SHA-256 matched the built bundle. The previous installed bundle was backed up locally.
+- All three providers repopulated in the running native detail window after restart; quota values and reset countdowns were visible. Existing extension pairing was retained.
+- The user confirmed that all three mini bars appear in the actual menu bar and clicking opens the detail panel correctly. This complements the native detail-window and automated layout checks above; the UI tool cannot directly select the status-item icon.
+
 ## Remaining release gates
 
 - Test clean installation on another Mac/account.

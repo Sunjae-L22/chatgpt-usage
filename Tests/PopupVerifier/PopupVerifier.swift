@@ -24,6 +24,8 @@ import UsageCore
             return host.fittingSize
         }
 
+        try runMenuBarChecks { condition, message in check(condition, message) }
+
         let store = UsageStore(demo: true)
         let now = Date()
         let window = ProviderWindow(id: "weekly", usedPercent: 40, windowDurationMins: 10080,

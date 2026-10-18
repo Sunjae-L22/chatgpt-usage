@@ -61,15 +61,6 @@ struct ProviderState {
         clockTimer = Timer.scheduledTimer(withTimeInterval: 30, repeats: true) { [weak self] _ in Task { @MainActor in self?.now = Date() } }
         wakeObserver = NSWorkspace.shared.notificationCenter.addObserver(forName: NSWorkspace.didWakeNotification, object: nil, queue: .main) { [weak self] _ in Task { @MainActor in self?.refresh() } }
     }
-    func label(at now: Date) -> String {
-        ProviderID.allCases.map { id in
-            let initial = id == .codex ? "Cx" : id == .claude ? "Cl" : "G"
-            let state = state(id)
-            guard let window = state.snapshot?.headline, let remaining = window.limit.remaining else { return "\(initial) —" }
-            let expired = window.limit.resetDate.map { $0 <= now } ?? false
-            return "\(initial) \(Int(remaining.rounded(.down)))%\(state.stale(at: now) || expired ? "?" : "")"
-        }.joined(separator: "  ")
-    }
     func receive(_ data: Data) {
         if let snapshot = try? ProviderSnapshot.decodeBridge(data) {
             // Ignore late or replayed measurements rather than making old data appear fresh.
@@ -330,7 +321,7 @@ private func openURL(_ value: String) { if let url = URL(string: value) { NSWork
         if args.contains("--window") { DispatchQueue.main.async { AppWindows.show(instance) } }
     }
     var body: some Scene {
-        MenuBarExtra { UsagePopover(store: store) } label: { Text(store.label(at: store.now)) }.menuBarExtraStyle(.window)
+        MenuBarExtra { UsagePopover(store: store) } label: { MenuBarIndicator(store: store) }.menuBarExtraStyle(.window)
     }
 }
 #endif
